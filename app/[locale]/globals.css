@@ -19,3 +19,9 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+.cont {
+  @apply px-4 xl:px-40;
+}
+.cust-trans {
+  @apply transition-all duration-300;
+}
