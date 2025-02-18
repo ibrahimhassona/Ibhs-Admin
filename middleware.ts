@@ -1,36 +1,29 @@
+// middleware.ts
+import { updateSession } from "./lib/supabase/middleware";
 import createMiddleware from "next-intl/middleware";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { routing } from "./i18n/routing";
-import { NextRequest, NextResponse } from "next/server";
-const intlMiddleWare = createMiddleware(routing);
-const allowEmail = process.env.ALLOWED_EMAIL
-export async function middleware(req: NextRequest) {
-  // 1------ Intl -----
-  const res = intlMiddleWare(req);
-  // 2------ SupaBase -----
-  const supabase = createMiddlewareClient({ req, res });
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+import { type NextRequest } from 'next/server';
 
-  const publicPaths = ["/login"];
-  if (
-    (!user || user.email !== allowEmail) &&
-    !publicPaths.some((path) => req.nextUrl.pathname.startsWith(path))
-  ) {
-    const loginUrl = new URL(`/login`, req.url);
-    return NextResponse.redirect(loginUrl);
-  }
-  return res ;
+// 1. إنشاء middleware للتوجيه الدولي
+const intlMiddleware = createMiddleware(routing);
+
+export async function middleware(request: NextRequest) {
+  // 2. معالجة التوجيه الدولي أولاً
+  const intlResponse = intlMiddleware(request);
+  
+  // 3. تحديث حالة الجلسة
+  const sessionResponse = await updateSession(request);
+
+  // 4. دمج الردود بشكل صحيح
+  return  intlResponse ?? sessionResponse ; // الأهمية: استخدام ?? بدلاً من ||
 }
 
+// 5. تصحيح إعدادات الماتشر
 export const config = {
   matcher: [
-    // Match all pathnames except for
-    // - … if they start with `/api`, `/_next` or `/_vercel`
-    // - … the ones containing a dot (e.g. `favicon.ico`)
-    "/((?!api|_next|_vercel|.*\\..*).*)",
-    // However, match all pathnames within `/users`, optionally with a locale prefix
-    "/([\\w-]+)?/users/(.+)",
-  ],
+    // استبعاد المسارات غير المرغوب فيها
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+    // تطبيق خاص على مسار /users
+    '/([\\w-]+)?/users/(.+)'
+  ]
 };
