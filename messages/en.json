@@ -1,6 +1,8 @@
 {
-    "HomePage": {
-      "title": "Hello world!",
-      "about": "Go to the about page"
-    }
+  "Sidebar": {
+    "skills": "Skills",
+    "profile": "Profile",
+    "projects": "Projects",
+    "posts": "Posts"
   }
+}

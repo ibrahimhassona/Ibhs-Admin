@@ -5,7 +5,7 @@ import Logo from "../ui/Logo";
 
 const Nav = () => {
   return (
-    <nav className="flex justify-between items-center cont  shadow-sm h-[68px]">
+    <nav className="flex justify-between items-center cont  shadow-sm h-[68px] borderColor border-b">
       {/* -------- Theme & Logo ---------- */}
       <div className="flex items-center gap-2">
         <ThemeSwitcher />

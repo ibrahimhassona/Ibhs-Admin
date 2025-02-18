@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="cont">
+    <main className="">
       <p>marhaba</p>
       <p>مرحبا</p>
       <p>marhaba</p>

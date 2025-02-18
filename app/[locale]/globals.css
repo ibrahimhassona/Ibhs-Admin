@@ -20,8 +20,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 .cont {
-  @apply px-4 xl:px-40;
+  @apply px-4 xl:px-20;
 }
 .cust-trans {
   @apply transition-all duration-300;
+}
+.borderColor{
+  @apply dark:border-gray-100/20 border-gray-500/20
 }

@@ -1,86 +1,88 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import {
-  LuUser,
-  LuCodeXml,
-  LuFolder,
-  LuNewspaper,
-} from "react-icons/lu";
+import { LuUser, LuCodeXml, LuFolder, LuNewspaper } from "react-icons/lu";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const pathname = usePathname();
-
+  const t = useTranslations("Sidebar");
   const navItems = [
     {
-      href: "/profile",
-      label: "الملف الشخصي",
+      title: t("profile"),
+      href: "/",
       icon: <LuUser className="w-5 h-5" />,
+      main: true,
     },
     {
+      title: t("projects"),
       href: "/projects",
-      label: "المشاريع",
       icon: <LuFolder className="w-5 h-5" />,
+      main: false,
     },
     {
+      title: t("skills"),
       href: "/skills",
-      label: "المهارات",
       icon: <LuCodeXml className="w-5 h-5" />,
+      main: false,
     },
     {
+      title: t("posts"),
       href: "/posts",
-      label: "المنشورات",
       icon: <LuNewspaper className="w-5 h-5" />,
+      main: false,
     },
   ];
 
   return (
     <nav
-      className={`h-full bg-background-light dark:bg-background-dark shadow-md absolute group  ${
-        isHovered ? "w-64" : "w-16"
-      } transition-all duration-300 max-md:absolute max-md:z-50`}
+      className={`h-full bg-background-light dark:bg-background-dark shadow-md absolute group borderColor border-e ${
+        isHovered ? "w-64" : "w-[70px]"
+      } cust-trans max-md:absolute max-md:hidden`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      
-      {/* Desktop Toggle Button */}
-      <div className="hidden md:block absolute top-4 -right-3">
-        <button
-          aria-label="تبديل القائمة الجانبية"
-          onClick={() => setIsOpen(!isOpen)}
-          className="bg-background-light dark:bg-background-dark p-1 rounded-full shadow-lg border"
-        >
-        </button>
-      </div>
+      {/* ... keep toggle button the same */}
 
-      {/* Navigation Items */}
-      <ul className={`space-y-4 p-4  cust-trans`}>
-        {navItems.map((item) => (
-          <li key={item.href}>
-            <Link
-              href={item.href}
-              className={`flex items-center h-[40px] gap-3 p-3 rounded-lg 
-               
-                ${
-                  pathname === item.href
-                    ? "bg-primary/20 text-primary"
-                    : "hover:bg-background-dark/20 dark:hover:bg-background-light/20"
-                }`}
-            >
-              <span className="min-w-[24px]">{item.icon}</span>
-              <span
-                className={` transition-all duration-500 flex text-nowrap overflow-hidden w-full ${
-                  isHovered ? "opacity-100" : "opacity-0 "
-                }`}
+      <ul className={`flex flex-col gap-3 p-4 cust-trans `}>
+        {navItems.map((item) => {
+          // ---- Is Active -----
+          const isActive = pathname.split("/")[2] === item.href.slice(1);
+          // ---- Is Profile -----
+          const isProfile =
+            pathname.split("/")[2] == undefined && item.main == true;
+          return (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className={`flex items-center h-[40px] gap-3 p-2 rounded-lg cust-trans
+                  ${
+                    isActive || isProfile
+                      ? "bg-primary/20 text-primary"
+                      : "text-foreground/60 dark:text-foreground-dark/60"
+                  }
+                  ${
+                    isActive || isProfile
+                      ? "hover:bg-primary/30" // Different hover for active state
+                      : "hover:bg-background-dark/20 dark:hover:bg-background-light/20"
+                  }`}
               >
-                {item.label}
-              </span>
-            </Link>
-          </li>
-        ))}
+                <span className={`min-w-[24px] flex items-center text-center `}>
+                  {item.icon}
+                </span>
+                <span
+                  className={`transition-all duration-500 flex text-nowrap overflow-hidden w-full ${
+                    isHovered ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  {item.title}
+                </span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
