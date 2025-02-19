@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LuUser, LuCodeXml, LuFolder, LuNewspaper } from "react-icons/lu";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { TbLogout } from "react-icons/tb";
 
 export default function Sidebar() {
   const [isHovered, setIsHovered] = useState(false);
@@ -32,6 +33,12 @@ export default function Sidebar() {
       title: t("posts"),
       href: "/posts",
       icon: <LuNewspaper className="w-5 h-5" />,
+      main: false,
+    },    
+    {
+      title: t("logout"),
+      href: "/login",
+      icon: <TbLogout className="w-5 h-5" />,
       main: false,
     },
   ];

@@ -56,7 +56,7 @@ export default function Home() {
       <p>marhaba</p>
       <p>مرحبا</p>
       <p>marhaba</p>
-      <p>مرحبا</p>      <p>مرحبا</p>
+      <p>مرحبا</p> <p>مرحبا</p>
       <p>marhaba</p>
       <p>مرحبا</p>
       <p>marhaba</p>

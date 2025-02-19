@@ -7,13 +7,15 @@ import type { ReactNode } from "react";
 import Nav from "../../components/navigation/Nav";
 import BottomBar from "../../components/BottomBar";
 import Sidebar from "../../components/SideBar";
+import { auth } from "@/auth";
+import GitHubLogin from "@/app/components/GitHubLogin";
 export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-
-
+  const session = await auth();
+// const user=session?.user?.email==
   return (
     <>
       <Nav />
@@ -22,7 +24,8 @@ export default async function RootLayout({
         <Sidebar />
         <BottomBar />
         <main className="h-[calc(100vh-68px)] overflow-y-auto py-4 w-full cont md:ms-16 xl:ms-0 max-md:pb-[70px]">
-          {children}
+          {/* {children} */}
+          {session ? children : <GitHubLogin />}
         </main>
       </div>
     </>

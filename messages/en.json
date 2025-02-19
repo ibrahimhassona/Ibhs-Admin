@@ -3,6 +3,7 @@
     "skills": "Skills",
     "profile": "Profile",
     "projects": "Projects",
-    "posts": "Posts"
+    "posts": "Posts",
+    "logout":"Logout"
   }
 }

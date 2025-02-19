@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { LuUser, LuCodeXml, LuFolder, LuNewspaper } from "react-icons/lu";
+import { TbLogout } from "react-icons/tb";
 const BottomBar = () => {
   const t = useTranslations("Sidebar");
   const pathname = usePathname();
@@ -32,6 +33,12 @@ const BottomBar = () => {
       icon: <LuNewspaper className="w-5 h-5" />,
       main: false,
     },
+    {
+      title: t("logout"),
+      href: "/login",
+      icon: <TbLogout className="w-5 h-5" />,
+      main: false,
+    },
   ];
   return (
     <nav className="fixed md:hidden h-[64px] bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t borderColor">
@@ -50,7 +57,7 @@ const BottomBar = () => {
               className={`flex flex-col items-center p-2 rounded-lg cust-trans 
               ${
                 isActive || isProfile
-                  ? "hover:bg-primary/30 bg-primary/30 text-primary-dark" 
+                  ? "hover:bg-primary/30 bg-primary/30 text-primary-dark"
                   : "hover:bg-background-dark/20 dark:hover:bg-background-light/20"
               }
               `}

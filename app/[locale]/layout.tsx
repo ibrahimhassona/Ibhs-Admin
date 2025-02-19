@@ -21,6 +21,9 @@ export const metadata: Metadata = {
 };
 import type { ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+
 interface Params {
   locale: string;
 }
@@ -41,27 +44,29 @@ export default async function RootLayout({
   }
 
   const messages = await getMessages();
-
+  const session = await auth();
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      <body
-        className={`  ${
-          locale == "ar" ? "font-cairo" : "font-roboto"
-        } ${cairo.variable} ${
-          roboto.variable
-        } bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+      <SessionProvider session={session}>
+        <body
+          className={`  ${locale == "ar" ? "font-cairo" : "font-roboto"} ${
+            cairo.variable
+          } ${
+            roboto.variable
+          } bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark`}
         >
-          <NextIntlClientProvider messages={messages}>
-            {children}
-          </NextIntlClientProvider>
-        </ThemeProvider>
-      </body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextIntlClientProvider messages={messages}>
+              {children}
+            </NextIntlClientProvider>
+          </ThemeProvider>
+        </body>
+      </SessionProvider>
     </html>
   );
 }
