@@ -41,7 +41,7 @@ const BottomBar = () => {
     },
   ];
   return (
-    <nav className="fixed md:hidden h-[64px] bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t borderColor">
+    <nav className="fixed md:hidden h-[64px] max-[420px]:h-[50px] bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t borderColor">
       <div className="flex items-center justify-around p-1">
         {navItems.map((item) => {
           // ---- Is Active -----
@@ -54,7 +54,7 @@ const BottomBar = () => {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center p-2 rounded-lg cust-trans 
+              className={`flex flex-col items-center p-2 rounded-lg cust-trans  
               ${
                 isActive || isProfile
                   ? "hover:bg-primary/30 bg-primary/30 text-primary-dark"
@@ -63,7 +63,7 @@ const BottomBar = () => {
               `}
             >
               {item.icon}
-              <span className="text-xs font-semibold mt-1">{item.title}</span>
+              <span className="text-xs font-semibold mt-1 max-[420px]:hidden">{item.title}</span>
             </Link>
           );
         })}

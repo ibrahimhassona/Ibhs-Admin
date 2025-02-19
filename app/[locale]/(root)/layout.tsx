@@ -16,6 +16,7 @@ export default async function RootLayout({
 }) {
   const session = await auth();
 // const user=session?.user?.email==
+console.log(session)
   return (
     <>
       <Nav />
