@@ -4,6 +4,21 @@
     "profile": "الملف الشخصي",
     "projects": "المشاريع",
     "posts": "المنشورات",
-    "logout":"تسجيل خروج"
-  }
+    "logout": "تسجيل خروج"
+  },
+  "login": {
+    "loader_message": "جارٍ التحقق من الجلسة...",
+    "logout": "تسجيل الخروج",
+    "welcome": "مرحبًا بك!",
+    "login_message": "سجل الدخول للوصول إلى حسابك",
+    "github_login": "تسجيل الدخول عبر GitHub",
+    "welcome_user": "مرحبًا مستخدمنا الكريم"
+
+  },
+  "Profile": {
+  "CoverAndImage": "الغلاف والصورة",
+  "PersonalInfo": "المعلومات الشخصية",
+  "AboutMe": "نبذة عني",
+  "WorkPrinciples": "مبادئ العمل"
+}
 }

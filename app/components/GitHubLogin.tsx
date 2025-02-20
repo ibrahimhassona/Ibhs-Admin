@@ -5,12 +5,13 @@ import { FaGithub } from "react-icons/fa";
 import { handleSignIn, handleSignOut } from "@/lib/AuthHelpers";
 import { UserAvatar, UserIcon, Loader } from "./UserComponents";
 import { TbLogout } from "react-icons/tb";
+import { useTranslations } from "next-intl";
 
 export default function GitHubAuth() {
   const { data: session, status } = useSession();
   const [isSigning, setIsSigning] = useState(false);
   const [hydrated, setHydrated] = useState(false);
-
+  const t = useTranslations("login");
   useEffect(() => setHydrated(true), []);
 
   if (!hydrated || status === "loading" || isSigning) return <Loader />;
@@ -27,7 +28,7 @@ export default function GitHubAuth() {
               />
               <div className="space-y-1">
                 <p className="text-xl font-bold text-primary">
-                  {session.user?.name || "مرحبًا مستخدمنا الكريم"}
+                {session.user?.name || t("welcome_user")}
                 </p>
                 <p className="text-sm">{session.user?.email}</p>
               </div>
@@ -38,7 +39,8 @@ export default function GitHubAuth() {
               className="flex items-center gap-2 bg-red-100 text-red-600 px-6 py-3 rounded-lg w-full justify-center hover:bg-red-200 cust-trans"
             >
               <TbLogout className="text-xl" />
-              تسجيل الخروج
+
+              {t("logout")}
             </button>
           </>
         ) : (
@@ -49,8 +51,8 @@ export default function GitHubAuth() {
                 name={session?.user?.name}
               />
               <div className="space-y-2">
-                <h2 className="text-2xl font-bold text-primary">مرحبًا بك!</h2>
-                <p className="text-gray-600">سجل الدخول للوصول إلى حسابك</p>
+              <h2 className="text-2xl font-bold text-primary">{t("welcome")}</h2>
+              <p className="text-gray-600">{t("login_message")}</p>
               </div>
             </div>
             <button
@@ -59,7 +61,7 @@ export default function GitHubAuth() {
               className="flex items-center gap-2 bg-primary/90 px-6 py-3 rounded-lg w-full justify-center hover:bg-primary cust-trans"
             >
               <FaGithub className="text-xl" />
-              تسجيل الدخول عبر GitHub
+              {t("github_login")}
             </button>
           </>
         )}

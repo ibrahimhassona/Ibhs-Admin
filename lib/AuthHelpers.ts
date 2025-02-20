@@ -1,5 +1,5 @@
 import { signIn, signOut } from "next-auth/react";
-import ROUTE from "@/lib/route";
+import { ROUTE } from "@/lib/route";
 
 export const handleSignIn = async (setIsSigning: (state: boolean) => void) => {
   try {

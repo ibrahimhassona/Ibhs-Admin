@@ -5,5 +5,20 @@
     "projects": "Projects",
     "posts": "Posts",
     "logout":"Logout"
+  },
+  "login": {
+    "loader_message": "Checking session...",
+    "logout": "Logout",
+    "welcome": "Welcome!",
+    "login_message": "Sign in to access your account",
+    "github_login": "Sign in with GitHub",
+    "welcome_user": "Hello, our valued user"
+
+  },
+  "Profile":{
+    "CoverAndImage":"Cover And Image",
+    "PersonalInfo":"Personal Info",
+    "AboutMe":"About Me",
+    "WorkPrinciples":"WorkPrinciples"
   }
 }

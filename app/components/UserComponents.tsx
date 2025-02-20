@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
 
@@ -46,9 +47,12 @@ export const UserIcon = ({
   );
 
 // مكون التحميل (Loader)
-export const Loader = () => (
-  <div className="flex flex-col items-center justify-center h-full space-y-4">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-primary" />
-    <p className="animate-pulse">جارٍ التحقق من الجلسة...</p>
-  </div>
-);
+export const Loader = () => {
+  const t = useTranslations('login');
+  return (
+    <div className="flex flex-col items-center justify-center h-full space-y-4">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-primary" />
+      <p className="animate-pulse">{t("loader_message")}</p>
+    </div>
+  );
+};

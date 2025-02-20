@@ -45,7 +45,7 @@ export default function Sidebar() {
 
   return (
     <nav
-      className={`h-full bg-background-light dark:bg-background-dark shadow-md absolute group borderColor border-e ${
+      className={`h-full bg-background-light dark:bg-background-dark shadow-md absolute z-50 group borderColor border-e ${
         isHovered ? "w-64" : "w-[70px]"
       } cust-trans max-md:absolute max-md:hidden`}
       onMouseEnter={() => setIsHovered(true)}
