@@ -41,7 +41,7 @@ const BottomBar = () => {
     },
   ];
   return (
-    <nav className="fixed md:hidden h-[64px] max-[420px]:h-[50px] bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t borderColor">
+    <nav className="fixed md:hidden h-[64px] max-[420px]:h-[50px] z-40 bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t borderColor">
       <div className="flex items-center justify-around p-1">
         {navItems.map((item) => {
           // ---- Is Active -----

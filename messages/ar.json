@@ -13,12 +13,27 @@
     "login_message": "سجل الدخول للوصول إلى حسابك",
     "github_login": "تسجيل الدخول عبر GitHub",
     "welcome_user": "مرحبًا مستخدمنا الكريم"
-
   },
   "Profile": {
-  "CoverAndImage": "الغلاف والصورة",
-  "PersonalInfo": "المعلومات الشخصية",
-  "AboutMe": "نبذة عني",
-  "WorkPrinciples": "مبادئ العمل"
-}
+    "CoverAndImage": "الغلاف والصورة",
+    "PersonalInfo": "المعلومات الشخصية",
+    "AboutMe": "نبذة عني",
+    "WorkPrinciples": "مبادئ العمل",
+    "profile": "الملف الشخصي",
+    "changePersonalPhoto": "تغيير الصورة الشخصية",
+    "changePersonalCover": "تغيير الغلاف",
+    "personal_items": "عناصر اساسية",
+    "name": "الاسم",
+    "job_title": "الوظيفة",
+    "email": "البريد الالكتروني",
+    "phone_number": "رقم الهاتف",
+    "current_company": "الشركة الحالية",
+    "addresses": "العناوين",
+    "social_links": "روابط تواصل",
+    "save": "حفظ",
+    "cancel": "الغاء",
+    "edit_social_link": "تغيير او تعديل رابط تواصل اجتماعى"
+  }
+ 
+  
 }

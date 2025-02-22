@@ -4,7 +4,7 @@
     "profile": "Profile",
     "projects": "Projects",
     "posts": "Posts",
-    "logout":"Logout"
+    "logout": "Logout"
   },
   "login": {
     "loader_message": "Checking session...",
@@ -13,12 +13,25 @@
     "login_message": "Sign in to access your account",
     "github_login": "Sign in with GitHub",
     "welcome_user": "Hello, our valued user"
-
   },
-  "Profile":{
-    "CoverAndImage":"Cover And Image",
-    "PersonalInfo":"Personal Info",
-    "AboutMe":"About Me",
-    "WorkPrinciples":"WorkPrinciples"
+  "Profile": {
+    "CoverAndImage": "Cover And Image",
+    "PersonalInfo": "Personal Info",
+    "AboutMe": "About Me",
+    "WorkPrinciples": "Work Principles",
+    "profile": "Profile",
+    "changePersonalPhoto": "Change Personal Photo",
+    "changePersonalCover": "Change Personal Cover",
+    "personal_items": "Personal Items",
+    "name": "Name",
+    "job_title": "Job Title",
+    "email": "Email",
+    "phone_number": "Phone Number",
+    "current_company": "Current Company",
+    "addresses": "Addresses",
+    "social_links": "Social Links",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit_social_link": "Edit Social Link"
   }
 }

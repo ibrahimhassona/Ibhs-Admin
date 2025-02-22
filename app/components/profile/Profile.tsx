@@ -35,7 +35,7 @@ export default function AdminProfile() {
             {tabIcons[key]} 
             <span className="max-sm:hidden">{t(route)}</span>
             {activeTab === route && (
-              <div className="absolute bottom-0 cust-trans left-0 right-0 h-[3px] bg-primary-dark rounded-t-full" />
+              <div className="absolute bottom-0 cust-trans left-2 w-[calc(100%-20px)] h-[3px] bg-primary-dark rounded-t-full" />
             )}
           </button>
         ))}

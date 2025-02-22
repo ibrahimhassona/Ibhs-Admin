@@ -32,5 +32,11 @@ body {
   @apply font-bold text-xl px-2 py-4 max-md:text-lg
 }
 .pageContainer{
-  @apply px-4 border-dashed border-[1px] dark:border-primary-light/20 border-primary-dark/40 py-6 rounded-md
+  @apply px-4 border-dashed border-[1px] dark:border-primary-light/20 border-primary-dark/40 py-6 rounded-md animate-fade-up cust-trans
+}
+.doneBtn{
+  @apply max-sm:rounded-sm  rounded-md text-xs cust-trans bg-primary-dark max-sm:text-[10px] p-2 max-sm:h-fit text-white hover:bg-primary
+}
+.cancelBtn{
+  @apply  max-sm:rounded-sm rounded-md text-xs cust-trans bg-red-500 max-sm:text-[10px] p-2 max-sm:h-fit  text-white hover:bg-red-400
 }
