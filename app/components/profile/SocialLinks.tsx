@@ -8,7 +8,6 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useTranslations } from "next-intl";
 const socialIcons: Record<string, JSX.Element> = {

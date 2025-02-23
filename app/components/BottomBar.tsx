@@ -63,7 +63,7 @@ const BottomBar = () => {
               `}
             >
               {item.icon}
-              <span className="text-xs font-semibold mt-1 max-[420px]:hidden">{item.title}</span>
+              <span className="text-xs font-bold mt-1 max-[420px]:hidden">{item.title}</span>
             </Link>
           );
         })}

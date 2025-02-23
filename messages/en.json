@@ -32,6 +32,17 @@
     "social_links": "Social Links",
     "save": "Save",
     "cancel": "Cancel",
-    "edit_social_link": "Edit Social Link"
+    "edit_social_link": "Edit Social Link",
+    "addBtn":"Add",
+    "addNewOpinion":"Add a new opinion..."
+
+  },
+  "Skills":{
+    "Skills":"Skills",
+    "personalskills":"Personal Skills",
+    "technologies":"Technologies",
+    "addSkill":"Add New Technology",
+    "addBtn":"Add",
+    "techName":"Technology Name"
   }
 }

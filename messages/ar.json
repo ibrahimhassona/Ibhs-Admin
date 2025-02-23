@@ -32,8 +32,17 @@
     "social_links": "روابط تواصل",
     "save": "حفظ",
     "cancel": "الغاء",
-    "edit_social_link": "تغيير او تعديل رابط تواصل اجتماعى"
+    "edit_social_link": "تغيير او تعديل رابط تواصل اجتماعى",
+    "addBtn": "إضافة",
+   "addNewOpinion": "أضف مبدأ جديدًا..."
+
+  },
+  "Skills": {
+    "Skills": "مهارات",
+    "personalskills": "المهارات الشخصية",
+    "technologies": "تقنيات",
+    "addSkill": "إضافة تقنية جديدة",
+    "addBtn": "إضافة",
+    "techName":"اسم التقنية"
   }
- 
-  
 }

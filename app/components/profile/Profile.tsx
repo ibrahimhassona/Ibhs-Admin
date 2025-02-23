@@ -29,13 +29,13 @@ export default function AdminProfile() {
             key={route}
             onClick={() => setActiveTab(route)}
             className={`pb-3 px-4 max-md:pb-2 max-md:px-2 max-md:text-xs relative cust-trans flex items-center gap-2 ${
-              activeTab === route ? "text-primary-dark font-semibold" : ""
+              activeTab === route ? "text-primary-dark " : ""
             }`}
           >
             {tabIcons[key]} 
             <span className="max-sm:hidden">{t(route)}</span>
             {activeTab === route && (
-              <div className="absolute bottom-0 cust-trans left-2 w-[calc(100%-20px)] h-[3px] bg-primary-dark rounded-t-full" />
+              <div className="absolute bottom-0 cust-trans start-0 w-full h-[3px] bg-primary-dark rounded-t-full" />
             )}
           </button>
         ))}

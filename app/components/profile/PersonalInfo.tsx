@@ -1,8 +1,5 @@
-import React, { ReactElement, useState } from "react";
 import { FaUser, FaPhone, FaBuilding, FaMapMarkerAlt } from "react-icons/fa";
 import { MdEmail, MdWork } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
-import { RiContractFill } from "react-icons/ri";
 import SocialLinksEditor from "./SocialLinks";
 import { useTranslations } from "next-intl";
 import { LuLink, LuList } from "react-icons/lu";

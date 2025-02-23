@@ -35,12 +35,12 @@ const Item: React.FC<{ title: string; value: string | string[]; icon?: ReactElem
             {/* --- Value ---- */}
             {Array.isArray(value) ? (
               value.map((item, index) => (
-                <p key={index} className="text-sm rounded-sm select-none ps-6 max-sm:ps-0">
+                <p key={index} className="text-sm rounded-sm select-none ps-6 max-sm:ps-0 text-gray-400">
                   {item}
                 </p>
               ))
             ) : (
-              <p className="text-sm rounded-sm select-none ps-6 max-sm:ps-0">{value}</p>
+              <p className="text-sm rounded-sm select-none ps-6 max-sm:ps-0 text-gray-400">{value}</p>
             )}
           </div>
           <button
