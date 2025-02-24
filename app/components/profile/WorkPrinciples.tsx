@@ -58,7 +58,7 @@ const WorkPrinciples = () => {
             onChange={(e) => setNewOpinion(e.target.value)}
             className="p-2 border border-primary-dark/30 border-dashed text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
-        <button className="py-2 text-white px-4 cust-trans w-fit rounded-md bg-primary-dark text-sm hover:bg-primary" onClick={addOpinion}>{t("addBtn")}</button>
+        <button aria-label={t("addBtn")} name={t("addBtn")} className="py-2 text-white px-4 cust-trans w-fit rounded-md bg-primary-dark text-sm hover:bg-primary" onClick={addOpinion}>{t("addBtn")}</button>
       </div>
 
       {/* قائمة الآراء */}
@@ -80,6 +80,8 @@ const WorkPrinciples = () => {
             <div className="flex gap-2 mx-2 ">
               {editingIndex === index ? (
                 <button
+                name={t("save")}
+                aria-label={t("save")}
                   className="p-1 cust-trans text-white bg-primary-dark rounded-sm hover:bg-primary"
                   onClick={saveEdit}
                 >
@@ -87,6 +89,8 @@ const WorkPrinciples = () => {
                 </button>
               ) : (
                 <button
+                name={t("edit")}
+                aria-label={t("edit")}
                   className="p-1 cust-trans text-white bg-yellow-600 rounded-sm hover:bg-yellow-500"
                   onClick={() => startEditing(index)}
                 >
@@ -94,6 +98,8 @@ const WorkPrinciples = () => {
                 </button>
               )}
               <button
+                name="delete"
+                aria-label="delete"
                 className="p-1 cust-trans text-white bg-red-600 rounded-sm hover:bg-red-500"
                 onClick={() => deleteOpinion(index)}
               >

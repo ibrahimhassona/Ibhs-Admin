@@ -16,8 +16,12 @@ export default function LanguageSwitcher() {
 
   return (
     <button
+      aria-label={`switch language ${currentLocale === "ar" ? "English" : "العربية"} `}
+      name={`switch language ${currentLocale === "ar" ? "English" : "العربية"} `}
       onClick={toggleLanguage}
-      className={`p-2 px-4 rounded-md text-sm cust-trans hover:text-primary ${currentLocale === "ar" ? 'font-roboto':'font-cairo'}`}
+      className={`p-2 px-4 rounded-md text-sm cust-trans hover:text-primary ${
+        currentLocale === "ar" ? "font-roboto" : "font-cairo"
+      }`}
     >
       {currentLocale === "ar" ? "English" : "العربية"}
     </button>

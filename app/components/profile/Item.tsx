@@ -16,10 +16,10 @@ const Item: React.FC<{ title: string; value: string | string[]; icon?: ReactElem
       {editing === String(value) ? (
         <div className="flex gap-2 absolute top-0 start-0 w-full bg-red-200 h-full items-center justify-between p-4 animate-fade-up cust-trans">
           <div className="flex items-center gap-2">
-            <button onClick={() => toggleEditing("h")} className="doneBtn" aria-label="save">
+            <button onClick={() => toggleEditing("h")} className="doneBtn" aria-label="save" name="save">
               {t("save")}
             </button>
-            <button onClick={() => toggleEditing("")} className="cancelBtn" aria-label="cancel">
+            <button onClick={() => toggleEditing("")} className="cancelBtn" aria-label="cancel" name="cancel">
               {t("cancel")}
             </button>
           </div>
@@ -44,6 +44,7 @@ const Item: React.FC<{ title: string; value: string | string[]; icon?: ReactElem
             )}
           </div>
           <button
+          name={t("edit_social_link")}
             aria-label={t("edit_social_link")}
             className="p-2 rounded-md h-fit dark:hover:bg-primary/20 hover:bg-gray-200 group cust-trans"
             onClick={() => toggleEditing(String(value))}

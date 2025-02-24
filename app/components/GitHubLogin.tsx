@@ -34,6 +34,8 @@ export default function GitHubAuth() {
               </div>
             </div>
             <button
+            name={'logout'}
+            aria-label="logout"
               onClick={() => handleSignOut(setIsSigning)}
               disabled={isSigning}
               className="flex items-center gap-2 bg-red-100 text-red-600 px-6 py-3 rounded-lg w-full justify-center hover:bg-red-200 cust-trans"
@@ -56,6 +58,8 @@ export default function GitHubAuth() {
               </div>
             </div>
             <button
+            aria-label="githublogin"
+            name="githublogin"
               onClick={() => handleSignIn(setIsSigning)}
               disabled={isSigning}
               className="flex items-center gap-2 bg-primary/90 px-6 py-3 rounded-lg w-full justify-center hover:bg-primary cust-trans"

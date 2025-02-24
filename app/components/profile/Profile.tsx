@@ -26,6 +26,8 @@ export default function AdminProfile() {
       <div className="flex gap-4 max-sm:gap-2 border-b max-md:justify-around borderColor mb-6">
         {Object.entries(PROFILE_SUB_ROUTES).map(([key, route]) => (
           <button
+          aria-label="route"
+          name="route"
             key={route}
             onClick={() => setActiveTab(route)}
             className={`pb-3 px-4 max-md:pb-2 max-md:px-2 max-md:text-xs relative cust-trans flex items-center gap-2 ${

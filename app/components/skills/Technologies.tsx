@@ -23,7 +23,7 @@ const initialTechnologies: Technology[] = [
 ];
 
 const Technologies = () => {
-    const t =useTranslations("Skills")
+  const t = useTranslations("Skills");
   const [technologies, setTechnologies] =
     useState<Technology[]>(initialTechnologies);
   const [newTech, setNewTech] = useState<Omit<Technology, "id">>({
@@ -90,15 +90,17 @@ const Technologies = () => {
                   onChange={(e) =>
                     setEditTech({ ...editTech, name: e.target.value })
                   }
-                  className=" p-1 rounded   w-full text-center"
+                  className=" p-1 border border-primary-dark/30 border-dashed text-sm rounded-md text-start"
                 />
               ) : (
-                <p className="">{tech.name}</p>
+                <p className="p-1 text-sm border border-transparent ">{tech.name}</p>
               )}
             </div>
             <div className="flex gap-2">
               {editTech?.id === tech.id ? (
                 <button
+                  aria-label="done"
+                  name="done"
                   className="p-1 text-white cust-trans bg-primary-dark rounded-sm hover:bg-primary"
                   onClick={() => handleEditTech(tech.id)}
                 >
@@ -106,6 +108,8 @@ const Technologies = () => {
                 </button>
               ) : (
                 <button
+                  aria-label="edit"
+                  name="edit"
                   className="p-1 text-white cust-trans bg-yellow-600 rounded-sm hover:bg-yellow-500"
                   onClick={() => setEditTech(tech)}
                 >
@@ -113,6 +117,8 @@ const Technologies = () => {
                 </button>
               )}
               <button
+                aria-label="delete"
+                name="delete"
                 className="p-1 text-white cust-trans bg-red-600 rounded-sm hover:bg-red-500"
                 onClick={() => handleDeleteTech(tech.id)}
               >
@@ -155,6 +161,8 @@ const Technologies = () => {
           />
         )}
         <button
+          aria-label={t("addBtn")}
+          name={t("addBtn")}
           onClick={handleAddTech}
           className="bg-primary-dark cust-trans hover:bg-primary w-fit text-white py-2 px-4 rounded mt-2 mx-auto flex text-sm"
         >

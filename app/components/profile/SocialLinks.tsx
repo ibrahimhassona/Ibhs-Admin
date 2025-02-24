@@ -76,14 +76,16 @@ const SocialLinksEditor = () => {
                  <button
                     onClick={() => handleSave(index)}
                     className="doneBtn"
-                    aria-label="save"
+                    aria-label={t("save")}
+                    name={t("save")}
                     >
                     {t("save")}
                   </button>
                   <button
                     onClick={() => handleSave(index)}
                     className="cancelBtn"
-                    aria-label="cancel"
+                    aria-label={t("cancel")}
+                    name={t("cancel")}
                   >
                     {t("cancel")}
                   </button>
@@ -92,6 +94,7 @@ const SocialLinksEditor = () => {
               ) : (
                 <button
                   aria-label="تغيير او تعديل عنصر اساسي"
+                  name="تغيير او تعديل عنصر اساسي"
                   className="p-2 rounded-md h-fit dark:hover:bg-primary/20 hover:bg-gray-200 group cust-trans"
                   onClick={() => handleEdit(index, link.url)}
                 >

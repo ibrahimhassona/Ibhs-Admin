@@ -33,16 +33,19 @@
     "save": "Save",
     "cancel": "Cancel",
     "edit_social_link": "Edit Social Link",
-    "addBtn":"Add",
-    "addNewOpinion":"Add a new opinion..."
-
+    "addBtn": "Add",
+    "addNewOpinion": "Add a new opinion...",
+    "edit": "Edit"
   },
-  "Skills":{
-    "Skills":"Skills",
-    "personalskills":"Personal Skills",
-    "technologies":"Technologies",
-    "addSkill":"Add New Technology",
-    "addBtn":"Add",
-    "techName":"Technology Name"
+  "Skills": {
+    "Skills": "Skills",
+    "personalskills": "Personal Skills",
+    "technologies": "Technologies",
+    "addSkill": "Add New Technology",
+    "addBtn": "Add",
+    "techName": "Technology Name",
+    "title": "Title",
+    "save": "Save",
+    "description": "Description"
   }
 }

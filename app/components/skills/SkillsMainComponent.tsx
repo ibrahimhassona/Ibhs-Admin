@@ -16,6 +16,8 @@ export default function SkillsMainComponent() {
       {/* ✅ الجزء العلوي كما هو */}
       <div className="flex gap-4 max-sm:gap-2 border-b max-md:justify-around borderColor mb-6">
         <button
+          aria-label="technologies"
+          name="technologies"
           onClick={() => setActiveTab("technologies")}
           className={`pb-3 px-4 max-md:pb-2 max-md:px-2 max-md:text-xs relative cust-trans flex items-center gap-2 ${
             activeTab === "technologies" ? "text-primary-dark" : ""
@@ -27,6 +29,8 @@ export default function SkillsMainComponent() {
           )}
         </button>
         <button
+          aria-label="personalskills"
+          name="personalskills"
           onClick={() => setActiveTab("personalskills")}
           className={`pb-3 px-4 max-md:pb-2 max-md:px-2 max-md:text-xs relative cust-trans flex items-center gap-2 ${
             activeTab === "personalskills" ? "text-primary-dark " : ""

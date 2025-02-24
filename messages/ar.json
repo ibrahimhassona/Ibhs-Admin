@@ -34,8 +34,8 @@
     "cancel": "الغاء",
     "edit_social_link": "تغيير او تعديل رابط تواصل اجتماعى",
     "addBtn": "إضافة",
-   "addNewOpinion": "أضف مبدأ جديدًا..."
-
+    "addNewOpinion": "أضف مبدأ جديدًا...",
+    "edit": "تعديل"
   },
   "Skills": {
     "Skills": "مهارات",
@@ -43,6 +43,9 @@
     "technologies": "تقنيات",
     "addSkill": "إضافة تقنية جديدة",
     "addBtn": "إضافة",
-    "techName":"اسم التقنية"
+    "save": "حفظ",
+    "techName": "اسم التقنية",
+    "title": "العنوان",
+    "description": "الوصف"
   }
 }
