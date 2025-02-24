@@ -56,7 +56,7 @@ const WorkPrinciples = () => {
             placeholder={t("addNewOpinion")}
             value={newOpinion}
             onChange={(e) => setNewOpinion(e.target.value)}
-            className="p-2 border border-primary-dark/30 border-dashed text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="p-2 border-[1px] borderColor text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         <button aria-label={t("addBtn")} name={t("addBtn")} className="py-2 text-white px-4 cust-trans w-fit rounded-md bg-primary-dark text-sm hover:bg-primary" onClick={addOpinion}>{t("addBtn")}</button>
       </div>
@@ -66,15 +66,16 @@ const WorkPrinciples = () => {
         {opinions.map((opinion, index) => (
           <li
             key={index}
-            className="p-2 min-h-[52px] shadow rounded flex justify-between items-center border border-primary-dark/30 border-dashed"
+            className="p-2 min-h-[52px] shadow rounded flex justify-between items-center border-[1px] borderColor"
           >
             {editingIndex === index ? (
-              <Input
+              <input
+              className="text-sm p-2 w-full rounded-md"
                 value={editedOpinion}
                 onChange={(e) => setEditedOpinion(e.target.value)}
               />
             ) : (
-              <span className="text-sm px-2">{opinion}</span>
+              <span className="text-sm p-2 w-full rounded-md">{opinion}</span>
             )}
 
             <div className="flex gap-2 mx-2 ">

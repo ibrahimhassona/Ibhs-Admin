@@ -12,7 +12,7 @@ const Item: React.FC<{ title: string; value: string | string[]; icon?: ReactElem
   };
 
   return (
-    <div className="flex justify-between border min-h-[71px] border-primary-dark/30 border-dashed p-4 rounded-md overflow-hidden relative">
+    <div className="flex justify-between border-[1px] borderColor p-4 rounded-md overflow-hidden relative">
       {editing === String(value) ? (
         <div className="flex gap-2 absolute top-0 start-0 w-full bg-red-200 h-full items-center justify-between p-4 animate-fade-up cust-trans">
           <div className="flex items-center gap-2">

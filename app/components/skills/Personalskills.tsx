@@ -23,6 +23,16 @@ export default function PersonalSkills() {
       title: "Problem Solving",
       description: "Critical thinking and analytical skills",
     },
+    {
+      id: 3,
+      title: "Problem Solving",
+      description: "Critical thinking and analytical skills",
+    },
+    {
+      id: 4,
+      title: "Problem Solving",
+      description: "Critical thinking and analytical skills",
+    },
   ]);
 
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -73,7 +83,7 @@ export default function PersonalSkills() {
             onChange={(e) =>
               setNewSkill({ ...newSkill, title: e.target.value })
             }
-            className="p-2 border border-primary-dark/30 border-dashed text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="p-2 border-[1px] borderColor text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
           {/* --- Description ---- */}
           <input
@@ -83,7 +93,7 @@ export default function PersonalSkills() {
             onChange={(e) =>
               setNewSkill({ ...newSkill, description: e.target.value })
             }
-            className="p-2 border border-primary-dark/30 border-dashed text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="p-2 border-[1px] borderColor text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
           {/* --- Add Btn ---- */}
           <button
@@ -97,14 +107,15 @@ export default function PersonalSkills() {
         </div>
       </div>
       {/* ---------- List of skills ---------- */}
-      <ul>
+      <ul className="flex flex-wrap  gap-3 ">
         {skills.map((skill) => (
           <li
             key={skill.id}
-            className="flex items-center justify-between p-2 border border-primary-dark/30 border-dashed text-sm rounded-md overflow-hidden mb-2"
+            className={`flex items-center ${editingId==skill.id ? '':'lg:max-h-[41px]'} justify-between p-2 border-[1px] borderColor text-sm rounded-md  overflow-hidden w-full lg:w-[calc(94%/2)]`}
           >
             {editingId === skill.id ? (
-              <div className="flex items-end justify-between max-md:flex-col gap-2 cust-trans animate-fade-up  w-full">
+              // ------------ Edite section ----------
+              <div className="flex items-end justify-between max-md:flex-col gap-2 cust-trans animate-fade-up w-full">
                 <div className="w-full flex flex-col gap-2">
                   <label className="block text-sm font-medium mx-2 ">
                     {t("title")}
@@ -115,7 +126,7 @@ export default function PersonalSkills() {
                     onChange={(e) =>
                       setNewSkill({ ...newSkill, title: e.target.value })
                     }
-                    className="p-2 border border-primary-dark/30 border-dashed text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="p-2 border-[1px] borderColor text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <div className="w-full flex flex-col gap-2">
@@ -128,7 +139,7 @@ export default function PersonalSkills() {
                     onChange={(e) =>
                       setNewSkill({ ...newSkill, description: e.target.value })
                     }
-                    className="p-2 border border-primary-dark/30 border-dashed text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="p-2 border-[1px] borderColor text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <button
@@ -142,7 +153,7 @@ export default function PersonalSkills() {
               </div>
             ) : (
               <>
-                <p className="flex-1">
+                <p className="flex-1 ">
                  <span className="font-bold"> {skill.title}</span> - {skill.description}
                 </p>
                 <div className="flex items-center gap-2">

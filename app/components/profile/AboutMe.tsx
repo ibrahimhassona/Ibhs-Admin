@@ -3,29 +3,44 @@ import { Textarea } from "../ui/textarea";
 import { CiEdit } from "react-icons/ci";
 import { MdCancelPresentation } from "react-icons/md";
 import { useTranslations } from "next-intl";
+import { Save } from "lucide-react";
 
 const AboutMe = () => {
   const [aboutMe, setAboutMe] = useState(
     "أنا مطور مواقع إلكترونية (Front-End) متخصص في بناء واجهات احترافية وتجربة مستخدم سلسة."
   );
   const [isEditing, setIsEditing] = useState(false);
-const t =useTranslations("Profile")
+  const t = useTranslations("Profile");
   const handleSave = () => {
     setIsEditing(false);
   };
   return (
     <div className="  rounded-md flex flex-col gap-4 ">
       <div className="flex justify-between items-center mb-4">
-        
         <button
-        name={isEditing ? "إلغاء" : "تعديل"}
-        className={`mt-2 py-2 px-4 cust-trans w-fit rounded-md  text-white ${isEditing ? 'bg-primary-dark hover:bg-primary' :'bg-yellow-600 hover:bg-yellow-500'} text-sm flex items-center gap-2 overflow-hidden`}
-         aria-label= {isEditing ? "إلغاء" : "تعديل"}
+          name={isEditing ? "إلغاء" : "تعديل"}
+          className={`mt-2 py-2 px-4 cust-trans w-fit rounded-md  text-white ${
+            isEditing
+              ? "bg-primary-dark hover:bg-primary"
+              : "bg-yellow-600 hover:bg-yellow-500"
+          } text-sm flex items-center gap-2 overflow-hidden`}
+          aria-label={isEditing ? "إلغاء" : "تعديل"}
           onClick={() => setIsEditing(!isEditing)}
         >
-          { isEditing ?  <MdCancelPresentation className="cust-trans animate-fade-up" size={18} />:<CiEdit className="cust-trans animate-fade-up"  size={18}/>}
+          {isEditing ? (
+            <MdCancelPresentation
+              className="cust-trans animate-fade-up"
+              size={18}
+            />
+          ) : (
+            <CiEdit className="cust-trans animate-fade-up" size={18} />
+          )}
 
-          {isEditing ? <p className="cust-trans animate-fade-up">{t("cancel")}</p> :<span className="cust-trans animate-fade-up">{t("edit")}</span>}
+          {isEditing ? (
+            <p className="cust-trans animate-fade-up">{t("cancel")}</p>
+          ) : (
+            <span className="cust-trans animate-fade-up">{t("edit")}</span>
+          )}
         </button>
       </div>
 
@@ -37,8 +52,14 @@ const t =useTranslations("Profile")
             onChange={(e) => setAboutMe(e.target.value)}
             rows={4}
           />
-          <button name="save" aria-label="save" className="mt-2 py-2 text-white px-4 cust-trans w-fit rounded-md bg-primary-dark text-sm hover:bg-primary" onClick={handleSave}>
-          {t("save")}
+          <button
+            name="save"
+            aria-label="save"
+            className="mt-2 flex items-center gap-2 py-2 text-white px-4 cust-trans w-fit rounded-md bg-primary-dark text-sm hover:bg-primary"
+            onClick={handleSave}
+          >
+            <Save size={16} className="mr-2" />
+            {t("save")}
           </button>
         </div>
       ) : (
@@ -46,6 +67,6 @@ const t =useTranslations("Profile")
       )}
     </div>
   );
-}
+};
 
-export default AboutMe
+export default AboutMe;

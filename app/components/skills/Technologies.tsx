@@ -73,7 +73,7 @@ const Technologies = () => {
         {technologies.map((tech) => (
           <div
             key={tech.id}
-            className="shadow-md p-4 rounded-md flex justify-between items-center gap-2 border border-primary-dark/30 border-dashed"
+            className="shadow-md p-4 rounded-md flex justify-between items-center gap-2 border-[1px] borderColor"
           >
             <div className="flex items-center justify-center gap-2">
               <Image
@@ -83,6 +83,7 @@ const Technologies = () => {
                 height={60}
                 className="rounded-md h-5 w-5"
               />
+            </div>
               {editTech?.id === tech.id ? (
                 <input
                   type="text"
@@ -90,13 +91,12 @@ const Technologies = () => {
                   onChange={(e) =>
                     setEditTech({ ...editTech, name: e.target.value })
                   }
-                  className=" p-1 border border-primary-dark/30 border-dashed text-sm rounded-md text-start"
+                  className=" py-1 px-2 border-[1px] borderColor text-sm rounded-md text-start w-full cust-trans animate-fade-up"
                 />
               ) : (
-                <p className="p-1 text-sm border border-transparent ">{tech.name}</p>
+                <p className="py-1 px-2 text-sm border border-transparent w-full cust-trans animate-fade-down">{tech.name}</p>
               )}
-            </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-fit">
               {editTech?.id === tech.id ? (
                 <button
                   aria-label="done"
@@ -131,13 +131,13 @@ const Technologies = () => {
       <div className="mt-6 p-4 rounded-lg max-w-[500px] mx-auto">
         <h3 className=" mb-2">{t("addSkill")} </h3>
         <div className="flex items-center gap-2 p-2  rounded-md">
-          {/* إدخال اسم التقنية */}
+          {/*---- إدخال اسم التقنية ----*/}
           <input
             type="text"
             placeholder={t("techName")}
             value={newTech.name}
             onChange={(e) => setNewTech({ ...newTech, name: e.target.value })}
-            className="p-2 border border-primary-dark/30 border-dashed text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="p-2 border-[1px] borderColor text-sm rounded-md w-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           {/* زر تحميل الصورة */}

@@ -54,7 +54,7 @@ const SocialLinksEditor = () => {
         {links.map((link, index) => (
           <li
             key={index}
-            className="flex items-center justify-between min-h-[71px] p-4 bg-card border border-primary-dark/30 border-dashed rounded-md relative overflow-hidden"
+            className="flex items-center justify-between min-h-[71px] p-4 bg-card border-[1px] borderColor rounded-md relative overflow-hidden"
           >
             <div className="flex items-center gap-3">
               {socialIcons[link.platform]}
