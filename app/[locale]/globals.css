@@ -43,3 +43,4 @@ body {
 .custom-border{
   @apply  dark:border-gray-100/20 border-gray-500/20
 }
+

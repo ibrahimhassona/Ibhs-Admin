@@ -111,7 +111,7 @@ export default function PersonalSkills() {
         {skills.map((skill) => (
           <li
             key={skill.id}
-            className={`flex items-center ${editingId==skill.id ? '':'lg:max-h-[41px]'} justify-between p-2 border-[1px] borderColor text-sm rounded-md  overflow-hidden w-full lg:w-[calc(94%/2)]`}
+            className={`flex items-center ${editingId==skill.id ? '':' h-[60px]'} justify-between py-2 gap-2 px-4 border-[1px] borderColor text-sm rounded-md  overflow-hidden w-full lg:w-[calc(94%/2)]`}
           >
             {editingId === skill.id ? (
               // ------------ Edite section ----------

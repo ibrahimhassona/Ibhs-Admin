@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Input } from "../ui/input";
 import { PencilIcon, CheckIcon, Trash2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 const initialOpinions = [
@@ -70,12 +69,12 @@ const WorkPrinciples = () => {
           >
             {editingIndex === index ? (
               <input
-              className="text-sm p-2 w-full rounded-md"
+              className="py-1 px-2 border-[1px] borderColor text-sm rounded-md text-start w-full animate-fade-up cust-trans"
                 value={editedOpinion}
                 onChange={(e) => setEditedOpinion(e.target.value)}
               />
             ) : (
-              <span className="text-sm p-2 w-full rounded-md">{opinion}</span>
+              <span className="py-1 px-2 border-[1px] border-transparent text-sm rounded-md text-start w-full animate-fade-down cust-trans">{opinion}</span>
             )}
 
             <div className="flex gap-2 mx-2 ">
