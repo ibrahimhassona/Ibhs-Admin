@@ -38,7 +38,7 @@ const BottomOfCard = ({ project }: { project: Project }) => {
         )}
         {/* -------- Delete & Edit -------- */}
       </div>
-      <div className="flex items-center gap-4 max-sm:mx-auto">
+      <div className="flex items-center gap-4 ">
         <button
           name="edit"
           aria-label="edit"
