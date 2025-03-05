@@ -26,7 +26,7 @@
     "name": "الاسم",
     "job_title": "الوظيفة",
     "email": "البريد الالكتروني",
-    "phone_number": "رقم الهاتف",
+    "phone_numbers": "رقم الهاتف",
     "current_company": "الشركة الحالية",
     "addresses": "العناوين",
     "social_links": "روابط تواصل",
@@ -35,7 +35,12 @@
     "edit_social_link": "تغيير او تعديل رابط تواصل اجتماعى",
     "addBtn": "إضافة",
     "addNewOpinion": "أضف مبدأ جديدًا...",
-    "edit": "تعديل"
+    "edit": "تعديل",
+    "databaseUpdateFailed": "فشل تحديث قاعدة البيانات.",
+    "databaseUpdatedSuccessfully": "تم تحديث قاعدة البيانات بنجاح!",
+    "uploaded":"!نجح التحميل",
+    "uploadFailed": "فشل تحميل الصورة."
+
   },
   "Skills": {
     "Skills": "مهارات",

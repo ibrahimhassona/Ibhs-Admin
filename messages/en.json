@@ -26,7 +26,7 @@
     "name": "Name",
     "job_title": "Job Title",
     "email": "Email",
-    "phone_number": "Phone Number",
+    "phone_numbers": "Phone Number",
     "current_company": "Current Company",
     "addresses": "Addresses",
     "social_links": "Social Links",
@@ -35,7 +35,11 @@
     "edit_social_link": "Edit Social Link",
     "addBtn": "Add",
     "addNewOpinion": "Add a new opinion...",
-    "edit": "Edit"
+    "edit": "Edit",
+    "databaseUpdateFailed": "Database update failed.",
+    "databaseUpdatedSuccessfully": "Database updated successfully!",
+    "uploaded":"uploaded successfully!",
+    "uploadFailed": "Failed to upload image."
   },
   "Skills": {
     "Skills": "Skills",

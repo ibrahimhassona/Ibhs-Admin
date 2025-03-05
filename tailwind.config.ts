@@ -11,7 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // 🎨 ألوان رئيسية مثل Supabase
+        
         primary: {
           DEFAULT: "#3ECF8E", // اللون الاخضر
           dark: "#249F6B", // نسخة داكنة

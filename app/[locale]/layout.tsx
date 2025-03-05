@@ -5,6 +5,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import localFont from "next/font/local";
+import { Toaster } from "../components/ui/sonner"
 const cairo = localFont({
   src: "../fonts/Cairo-VF.ttf",
   variable: "--font-cairo",
@@ -63,6 +64,7 @@ export default async function RootLayout({
           >
             <NextIntlClientProvider messages={messages}>
               {children}
+              <Toaster/>
             </NextIntlClientProvider>
           </ThemeProvider>
         </body>

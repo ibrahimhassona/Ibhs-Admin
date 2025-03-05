@@ -1,38 +1,90 @@
+// Item.tsx
 import { useTranslations } from "next-intl";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { RiContractFill } from "react-icons/ri";
+import { Input } from "../ui/input";
 
-const Item: React.FC<{ title: string; value: string | string[]; icon?: ReactElement }> = ({ title, value, icon }) => {
-  const [editing, setEditing] = useState<string>("");
+const Item: React.FC<{
+  title: string;
+  value: string | string[];
+  icon?: ReactElement;
+  editingItem: string | null;
+  setEditingItem: (key: string | null) => void;
+  itemKey: string;
+  onSave?: (newValue: string | string[]) => void;
+}> = ({ title, value, icon, editingItem, setEditingItem, itemKey, onSave }) => {
   const t = useTranslations("Profile");
+  const isEditing = editingItem === itemKey;
+  const [editedValue, setEditedValue] = useState(value);
 
-  const toggleEditing = (newValue: string) => {
-    setEditing(newValue);
+  useEffect(() => {
+    setEditedValue(value);
+  }, [value]);
+
+  const handleSave = () => {
+    onSave?.(editedValue);
+    setEditingItem(null);
   };
 
   return (
     <div className="flex justify-between border-[1px] borderColor p-4 rounded-md overflow-hidden relative">
-      {editing === String(value) ? (
-        <div className="flex gap-2 absolute top-0 start-0 w-full bg-red-200 h-full items-center justify-between p-4 animate-fade-up cust-trans">
-          <div className="flex items-center gap-2">
-            <button onClick={() => toggleEditing("h")} className="doneBtn" aria-label="save" name="save">
-              {t("save")}
-            </button>
-            <button onClick={() => toggleEditing("")} className="cancelBtn" aria-label="cancel" name="cancel">
-              {t("cancel")}
-            </button>
+      {isEditing ? (
+        <div className="flex gap-2 w-full h-full items-center justify-between animate-fade-up cust-trans">
+          <div className="flex gap-2 w-full h-full items-center justify-between">
+            <div className="flex flex-col gap-2 w-full items-center">
+              {Array.isArray(editedValue) ? (
+                editedValue.map((item, index) => (
+                  <Input
+                    key={index}
+                    value={item}
+                    onChange={(e) => {
+                      const newValues = [...editedValue];
+                      newValues[index] = e.target.value;
+                      setEditedValue(newValues);
+                    }}
+                  />
+                ))
+              ) : (
+                <Input
+                  value={editedValue}
+                  onChange={(e) => setEditedValue(e.target.value)}
+                />
+              )}
+            </div>
+            <div className="flex gap-2 items-center">
+              <button
+                onClick={handleSave}
+                className="doneBtn"
+                aria-label="save"
+                name="save"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && handleSave()}
+              >
+                {t("save")}
+              </button>
+              <button
+                onClick={() => setEditingItem(null)}
+                className="cancelBtn"
+                aria-label="cancel"
+                name="cancel"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && setEditingItem(null)}
+              >
+                {t("cancel")}
+              </button>
+            </div>
           </div>
         </div>
       ) : (
         <>
-          {/* ---- Label ----- */}
-          <div className="h-full flex flex-col justify-between">
+          <div className="h-full flex flex-col justify-between cust-trans animate-fade-down">
             <h2 className="flex items-center text-sm">
-              {icon ? icon : <RiContractFill className="me-2 text-primary-dark" size={20} />}
+              {icon || <RiContractFill className="me-2 text-primary-dark" size={20} />}
               {title}
             </h2>
-            {/* --- Value ---- */}
             {Array.isArray(value) ? (
               value.map((item, index) => (
                 <p key={index} className="text-sm rounded-sm select-none ps-6 max-sm:ps-0 text-gray-400">
@@ -44,10 +96,13 @@ const Item: React.FC<{ title: string; value: string | string[]; icon?: ReactElem
             )}
           </div>
           <button
-          name={t("edit_social_link")}
-            aria-label={t("edit_social_link")}
+            name={t("edit")}
+            aria-label={t("edit")}
             className="p-2 rounded-md h-fit dark:hover:bg-primary/20 hover:bg-gray-200 group cust-trans"
-            onClick={() => toggleEditing(String(value))}
+            onClick={() => setEditingItem(itemKey)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && setEditingItem(itemKey)}
           >
             <CiEdit size={22} className="cursor-pointer cust-trans text-yellow-600 dark:group-hover:text-yellow-400 group-hover:text-gray-900" />
           </button>
