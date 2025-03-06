@@ -5,25 +5,32 @@ import SocialLinksEditor from "./SocialLinks";
 import { useTranslations } from "next-intl";
 import { LuLink, LuList } from "react-icons/lu";
 import Item from "./Item";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import LoaderOne from "../ui/LoaderOne";
+import { UserProfile } from "./Profile";
 
-const PersonalInfo = ({ data }: { data: any }) => {
+
+export type IconKeys = "name" | "job_title" | "email" | "phone_numbers" | "current_company" | "addresses";
+
+
+const PersonalInfo = ({ data }: { data: UserProfile }) => {
   const t = useTranslations("Profile");
   const [editingItem, setEditingItem] = useState<string | null>(null);
-
+console.log('======>',data)
   if (!data) {
     return <LoaderOne/>; 
   }
 
-  const icons: Record<string, JSX.Element> = {
-    name: <FaUser className="me-2 text-primary-dark" size={20} />,
-    job_title: <MdWork className="me-2 text-primary-dark" size={20} />,
-    email: <MdEmail className="me-2 text-primary-dark" size={20} />,
-    phone_numbers: <FaPhone className="me-2 text-primary-dark" size={20} />,
-    current_company: <FaBuilding className="me-2 text-primary-dark" size={20} />,
-    addresses: <FaMapMarkerAlt className="me-2 text-primary-dark" size={20} />,
-  };
+
+// Use ReactNode instead of JSX.Element for better compatibility
+const icons: Record<IconKeys, JSX.Element> = {
+  name: <FaUser className="me-2 text-primary-dark" size={20} />,
+  job_title: <MdWork className="me-2 text-primary-dark" size={20} />,
+  email: <MdEmail className="me-2 text-primary-dark" size={20} />,
+  phone_numbers: <FaPhone className="me-2 text-primary-dark" size={20} />,
+  current_company: <FaBuilding className="me-2 text-primary-dark" size={20} />,
+  addresses: <FaMapMarkerAlt className="me-2 text-primary-dark" size={20} />,
+};
 
   const baseItems = {
     name: data?.name || "",  
@@ -47,7 +54,7 @@ const PersonalInfo = ({ data }: { data: any }) => {
               key={key}
               title={t(key)}
               value={value}
-              icon={icons[key]}
+              icon={icons[key as IconKeys]}
               editingItem={editingItem}
               setEditingItem={setEditingItem}
               itemKey={key}

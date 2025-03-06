@@ -37,10 +37,10 @@ export default async function RootLayout({
   params: Promise<Params>;
 }) {
   const resolvedParams = await params;
-  const locale = resolvedParams.locale;
+  const locale = resolvedParams.locale as "ar" | "en";
   // -- diraction --
   const dir = locale === "ar" ? "rtl" : "ltr";
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale)) {
     notFound();
   }
 

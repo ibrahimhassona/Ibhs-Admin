@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { handleSignIn, handleSignOut } from "@/lib/AuthHelpers";
 import { UserAvatar, UserIcon, Loader } from "./UserComponents";
@@ -10,11 +10,9 @@ import { useTranslations } from "next-intl";
 export default function GitHubAuth() {
   const { data: session, status } = useSession();
   const [isSigning, setIsSigning] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
   const t = useTranslations("login");
-  useEffect(() => setHydrated(true), []);
 
-  if (!hydrated || status === "loading" || isSigning) return <Loader />;
+  if (status === "loading" || isSigning) return <Loader />;
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-4">
@@ -23,43 +21,39 @@ export default function GitHubAuth() {
           <>
             <div className="flex flex-col items-center justify-center text-center gap-4">
               <UserAvatar
-                image={session.user?.image}
-                name={session.user?.name}
+                image={session.user?.image || ""}
+                name={session.user?.name || t("welcome_user")}
               />
               <div className="space-y-1">
                 <p className="text-xl font-bold text-primary">
-                {session.user?.name || t("welcome_user")}
+                  {session.user?.name || t("welcome_user")}
                 </p>
                 <p className="text-sm">{session.user?.email}</p>
               </div>
             </div>
             <button
-            name={'logout'}
-            aria-label="logout"
+              name="logout"
+              aria-label="logout"
               onClick={() => handleSignOut(setIsSigning)}
               disabled={isSigning}
               className="flex items-center gap-2 bg-red-100 text-red-600 px-6 py-3 rounded-lg w-full justify-center hover:bg-red-200 cust-trans"
             >
               <TbLogout className="text-xl" />
-
               {t("logout")}
             </button>
           </>
         ) : (
           <>
             <div className="flex flex-col items-center justify-center text-center gap-4">
-              <UserIcon
-                image={session?.user?.image}
-                name={session?.user?.name}
-              />
+              <UserIcon />
               <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-primary">{t("welcome")}</h2>
-              <p className="text-gray-600">{t("login_message")}</p>
+                <h2 className="text-2xl font-bold text-primary">{t("welcome")}</h2>
+                <p className="text-gray-600">{t("login_message")}</p>
               </div>
             </div>
             <button
-            aria-label="githublogin"
-            name="githublogin"
+              aria-label="githublogin"
+              name="githublogin"
               onClick={() => handleSignIn(setIsSigning)}
               disabled={isSigning}
               className="flex items-center gap-2 bg-primary/90 px-6 py-3 rounded-lg w-full justify-center hover:bg-primary cust-trans"

@@ -103,7 +103,7 @@ export default function ProjectsComponent() {
     liveProject: "",
     video: "",
   });
-
+console.log(projects)
   const handleAddProject = () => {
     if (!newProject.title.trim() || !newProject.image) return;
 

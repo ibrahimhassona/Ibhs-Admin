@@ -1,19 +1,19 @@
 // Item.tsx
 import { useTranslations } from "next-intl";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { RiContractFill } from "react-icons/ri";
 import { Input } from "../ui/input";
-
-const Item: React.FC<{
+interface ItemProps {
   title: string;
   value: string | string[];
-  icon?: ReactElement;
+  icon?: React.ReactNode; // <-- Change from `Record<IconKeys, ReactNode>` to `ReactNode`
   editingItem: string | null;
   setEditingItem: (key: string | null) => void;
   itemKey: string;
   onSave?: (newValue: string | string[]) => void;
-}> = ({ title, value, icon, editingItem, setEditingItem, itemKey, onSave }) => {
+}
+const Item:React.FC<ItemProps> = ({ title, value, editingItem, setEditingItem, itemKey, onSave }) => {
   const t = useTranslations("Profile");
   const isEditing = editingItem === itemKey;
   const [editedValue, setEditedValue] = useState(value);
@@ -82,7 +82,7 @@ const Item: React.FC<{
         <>
           <div className="h-full flex flex-col justify-between cust-trans animate-fade-down">
             <h2 className="flex items-center text-sm">
-              {icon || <RiContractFill className="me-2 text-primary-dark" size={20} />}
+              {<RiContractFill className="me-2 text-primary-dark" size={20} />}
               {title}
             </h2>
             {Array.isArray(value) ? (

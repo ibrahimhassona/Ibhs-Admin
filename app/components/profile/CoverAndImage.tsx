@@ -1,11 +1,13 @@
 import { useTranslations } from "next-intl";
 import { MemoizedImageComponent } from "./MemoizedImageComponent";
 
+interface Data{
+image:string,
+cover:string
+}
 
-
-const CoverAndImage = ({ data, locale }: { data: any; locale: string }) => {
+const CoverAndImage = ({ data, locale }: { data: Data; locale: string }) => {
   const t = useTranslations("Profile");
-
   return (
     <div className="flex items-center gap-6 max-lg:flex-col">
       {/* ---- Profile Image -----  */}
