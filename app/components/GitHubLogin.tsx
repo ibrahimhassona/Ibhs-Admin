@@ -11,9 +11,6 @@ export default function GitHubAuth() {
   const { data: session, status } = useSession();
   const [isSigning, setIsSigning] = useState(false);
   const t = useTranslations("login");
-  const isEnv = process.env.AUTH_GITHUB_ID =='Ov23liBxZHjNjbxVeQ0j' ?'Production':'locale'
-  console.log(isEnv)
-  console.log(process.env.AUTH_GITHUB_ID)
   if (status === "loading" || isSigning) return <Loader />;
 
   return (

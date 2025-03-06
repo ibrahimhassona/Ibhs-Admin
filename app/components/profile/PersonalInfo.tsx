@@ -16,7 +16,6 @@ export type IconKeys = "name" | "job_title" | "email" | "phone_numbers" | "curre
 const PersonalInfo = ({ data }: { data: UserProfile }) => {
   const t = useTranslations("Profile");
   const [editingItem, setEditingItem] = useState<string | null>(null);
-console.log('======>',data)
   if (!data) {
     return <LoaderOne/>; 
   }

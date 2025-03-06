@@ -8,9 +8,6 @@ cover:string
 
 const CoverAndImage = ({ data, locale }: { data: Data; locale: string }) => {
   const t = useTranslations("Profile");
-  const isEnv = process.env.AUTH_GITHUB_ID =='Ov23liBxZHjNjbxVeQ0j' ?'Production':'locale'
-  console.log(isEnv)
-  console.log(process.env.AUTH_GITHUB_ID)
   return (
     <div className="flex items-center gap-6 max-lg:flex-col">
       {/* ---- Profile Image -----  */}
