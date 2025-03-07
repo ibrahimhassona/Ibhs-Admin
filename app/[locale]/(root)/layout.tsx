@@ -26,7 +26,7 @@ console.log(session)
         <BottomBar />
         <main className="h-[calc(100vh-68px)] overflow-y-auto py-4 w-full cont md:ms-16 xl:ms-0 max-md:pb-[70px]">
           {/* {children} */}
-          {session ? children : <GitHubLogin />}
+          {session?.user?.email===process.env.ALLOWED_EMAIL ? children : <GitHubLogin />}
         </main>
       </div>
     </>
