@@ -39,7 +39,10 @@
     "databaseUpdateFailed": "فشل تحديث قاعدة البيانات.",
     "databaseUpdatedSuccessfully": "تم تحديث قاعدة البيانات بنجاح!",
     "uploaded":"!نجح التحميل",
-    "uploadFailed": "فشل تحميل الصورة."
+    "uploadFailed": "فشل تحميل الصورة.",
+    "update_failed":" فشل التحديث",
+    "update_success":"تم التحديث بنجاح",
+    "saving": "جاري الحفظ..."
 
   },
   "Skills": {

@@ -39,7 +39,10 @@
     "databaseUpdateFailed": "Database update failed.",
     "databaseUpdatedSuccessfully": "Database updated successfully!",
     "uploaded":"uploaded successfully!",
-    "uploadFailed": "Failed to upload image."
+    "uploadFailed": "Failed to upload image.",
+    "update_failed": "Update failed",
+    "update_success": "Update successful",
+    "saving": "Saving..."
   },
   "Skills": {
     "Skills": "Skills",
