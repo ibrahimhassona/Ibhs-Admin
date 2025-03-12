@@ -1,4 +1,4 @@
-import { JSX, useState, useCallback, useMemo } from "react";
+import { JSX, useState, useCallback } from "react";
 import {
   FaLinkedin,
   FaTelegram,
@@ -33,7 +33,7 @@ interface SocialLinksEditorProps {
   userId: number;
 }
 
-const SocialLinksEditor = ({ socialLinks, userId }: SocialLinksEditorProps) => {
+const SocialLinksEditor = ({ socialLinks }: SocialLinksEditorProps) => {
   const t = useTranslations("Profile");
   const [links, setLinks] = useState(socialLinks);
   const [editIndex, setEditIndex] = useState<number | null>(null);

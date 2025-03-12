@@ -42,7 +42,7 @@ const PersonalInfo = ({ data }: { data: UserProfile }) => {
     addresses: data?.addresses || [],
   };
 
-  const handleSave = (key: string, newValue: string | string[]) => {
+  const handleSave = (key: string) => {
     toast.success(`${t(key)} ${t("updated_successfully")}`);
   };
 
@@ -67,7 +67,7 @@ const PersonalInfo = ({ data }: { data: UserProfile }) => {
               columnName={key}
               rowId={Number(data?.id)}
               language={locale}
-              onSave={(newValue) => handleSave(key, newValue)}
+              onSave={() => handleSave(key)}
             />
           ))}
         </div>
