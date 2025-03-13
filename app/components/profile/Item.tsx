@@ -139,6 +139,7 @@ const Item: React.FC<ItemProps> = ({
           </div>
           <button
             name={`edit ${itemKey}`}
+            aria-label={`edit ${itemKey}`}
             className="p-1 rounded-md bg-yellow-500 hover:bg-yellow-600 group cust-trans flex items-center justify-center h-[30px] w-[40px] animate-fade-down"
             onClick={() => setEditingItem(itemKey)}
           >

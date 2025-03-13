@@ -122,7 +122,7 @@ export default function AdminProfile() {
         {activeTab === PROFILE_SUB_ROUTES.AboutMe && persoData && (
           <AboutMe data={persoData} />
         )}
-        {activeTab === PROFILE_SUB_ROUTES.WorkPrinciples && <WorkPrinciples />}
+        {activeTab === PROFILE_SUB_ROUTES.WorkPrinciples && persoData && <WorkPrinciples data={persoData} />}
       </div>
     </section>
   );

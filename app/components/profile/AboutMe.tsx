@@ -88,9 +88,9 @@ const AboutMe = ({ data }: { data: UserProfile }) => {
 
       {/* Edit Mode */}
       {isEditing ? (
-        <div className="flex flex-col gap-2 items-end">
+        <div className="flex flex-col gap-2 items-end lg:w-[50%]">
           <Textarea
-            className="w-full p-2 cust-trans animate-fade-up leading-6"
+            className="w-full p-2 cust-trans animate-fade-up leading-6 max-md:h-[300px]"
             value={aboutMe}
             onChange={(e) => setAboutMe(e.target.value)}
             rows={4}
@@ -98,12 +98,12 @@ const AboutMe = ({ data }: { data: UserProfile }) => {
           <button
             name="save"
             aria-label="save"
-            className="mt-2 flex items-center gap-2 py-2 text-white px-4 cust-trans w-fit rounded-md bg-primary-dark text-sm hover:bg-primary disabled:opacity-50"
+            className={`mt-2 flex items-center gap-2 py-2 text-white px-4 cust-trans w-fit rounded-md bg-primary-dark text-sm hover:bg-primary disabled:opacity-50 ${(loading || aboutMe === data?.about_me)?'cursor-not-allowed':''}`}
             onClick={handleSave}
-            // disabled={loading || aboutMe === data?.about_me} // ✅ Disable if loading or no changes
+            disabled={loading || aboutMe === data?.about_me} 
           >
             {loading ? (
-              <ImSpinner10 size={18} className="animate-spin" /> // ✅ Show spinner while saving
+              <ImSpinner10 size={18} className="animate-spin" /> 
             ) : (
               <>
                 <Save size={16} className="mr-2" />
@@ -113,8 +113,8 @@ const AboutMe = ({ data }: { data: UserProfile }) => {
           </button>
         </div>
       ) : (
-        // View Mode
-        <p className="text-sm">{aboutMe || t("no_about_me")}</p>
+      
+        <p className="text-sm lg:w-[50%]">{aboutMe || t("no_about_me")}</p>
       )}
     </div>
   );
