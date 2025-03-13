@@ -73,7 +73,7 @@ const PersonalInfo = ({ data }: { data: UserProfile }) => {
         </div>
       </div>
 
-      {/* ------ روابط التواصل الاجتماعي --------*/}
+      {/* ------ Social Media Links   --------*/}
       <div>
         <h2 className="py-2 font-bold flex items-center gap-2">
           {t("social_links")} <LuLink />

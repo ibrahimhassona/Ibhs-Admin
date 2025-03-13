@@ -40,14 +40,19 @@ export default function AdminProfile() {
 
   useEffect(() => {
     const fetchPersonalInfo = async () => {
-      const { Personal_information, error } = await getPersonalInformation(locale);
+      const { Personal_information, error } = await getPersonalInformation(
+        locale
+      );
 
       if (error) {
         console.error("Error fetching data:", error);
         return;
       }
 
-      if (Array.isArray(Personal_information) && Personal_information.length > 0) {
+      if (
+        Array.isArray(Personal_information) &&
+        Personal_information.length > 0
+      ) {
         setPersoData(Personal_information[0]); // Store the first object
       } else {
         setPersoData(null); // Set to null if no data
@@ -103,12 +108,20 @@ export default function AdminProfile() {
       </div>
       <div>
         {activeTab === PROFILE_SUB_ROUTES.CoverAndImage && (
-          <CoverAndImage locale={locale} data={{ image: persoData?.image ?? "", cover: persoData?.cover ?? "" }} />
+          <CoverAndImage
+            locale={locale}
+            data={{
+              image: persoData?.image ?? "",
+              cover: persoData?.cover ?? "",
+            }}
+          />
         )}
         {activeTab === PROFILE_SUB_ROUTES.PersonalInfo && persoData && (
-          <PersonalInfo  data={persoData} />
+          <PersonalInfo data={persoData} />
         )}
-        {activeTab === PROFILE_SUB_ROUTES.AboutMe && <AboutMe />}
+        {activeTab === PROFILE_SUB_ROUTES.AboutMe && persoData && (
+          <AboutMe data={persoData} />
+        )}
         {activeTab === PROFILE_SUB_ROUTES.WorkPrinciples && <WorkPrinciples />}
       </div>
     </section>

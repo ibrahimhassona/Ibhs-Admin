@@ -1,11 +1,10 @@
-// Item.tsx
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { RiContractFill } from "react-icons/ri";
 import { Input } from "../ui/input";
 import supabase from "@/lib/supabase";
-import { toast } from "sonner"; // استخدام Sonner للإشعارات
+import { toast } from "sonner";
 import { ImSpinner10 } from "react-icons/im";
 
 interface ItemProps {
@@ -31,7 +30,6 @@ const Item: React.FC<ItemProps> = ({
   itemKey,
   tableName,
   columnName,
-  rowId,
   language,
 }) => {
   const t = useTranslations("Profile");
@@ -43,21 +41,21 @@ const Item: React.FC<ItemProps> = ({
     setEditedValue(value);
   }, [value]);
 
-  // ------- تحديث القيم في Supabase ---------
+  // ------- Supabase Update ---------
   const updateValueInSupabase = async (newValue: string | string[]) => {
-    if (!tableName || !columnName || !rowId) return;
-
+    console.log("🟢 تحديث Supabase بالقيمة:", newValue);
+    console.log(tableName, columnName);
+    if (!tableName || !columnName) return;
     setLoading(true);
     const { error } = await supabase
       .from(tableName)
       .update({ [columnName]: newValue })
-      .eq("id", rowId)
-      .eq("language", language); // التأكد من تحديث اللغة الصحيحة
+      .eq("language", language);
 
     setLoading(false);
 
     if (error) {
-      toast.error(t("update_failed")+"❌", { description: error.message });
+      toast.error(t("update_failed") + "❌", { description: error.message });
       console.error("❌ تحديث فشل: ", error.message);
       return;
     }
@@ -67,6 +65,10 @@ const Item: React.FC<ItemProps> = ({
   };
 
   const handleSave = () => {
+    if (editedValue === value) {
+      setEditingItem(null);
+      return;
+    }
     updateValueInSupabase(editedValue);
   };
 
@@ -101,7 +103,11 @@ const Item: React.FC<ItemProps> = ({
               disabled={loading}
               aria-label="save"
             >
-              {loading ? <ImSpinner10 size={18} className=" animate-spin" /> : t("save")}
+              {loading ? (
+                <ImSpinner10 size={18} className=" animate-spin" />
+              ) : (
+                t("save")
+              )}
             </button>
             <button
               onClick={() => setEditingItem(null)}
@@ -116,12 +122,14 @@ const Item: React.FC<ItemProps> = ({
         <>
           <div className="h-full flex flex-col justify-between cust-trans animate-fade-down">
             <h2 className="flex items-center text-sm">
-              {icon || <RiContractFill className="me-2 text-primary-dark" size={20} />}
+              {icon || (
+                <RiContractFill className="me-2 text-primary-dark" size={20} />
+              )}
               {title}
             </h2>
             {Array.isArray(value) ? (
               value.map((item, index) => (
-                <p key={index} className="text-sm select-none text-gray-400">
+                <p key={index} className="text-sm select-none text-gray-400 ">
                   {item}
                 </p>
               ))
@@ -130,13 +138,11 @@ const Item: React.FC<ItemProps> = ({
             )}
           </div>
           <button
-            className="p-2 rounded-md dark:hover:bg-primary/20 hover:bg-gray-200 group cust-trans"
+            name={`edit ${itemKey}`}
+            className="p-1 rounded-md bg-yellow-500 hover:bg-yellow-600 group cust-trans flex items-center justify-center h-[30px] w-[40px] animate-fade-down"
             onClick={() => setEditingItem(itemKey)}
           >
-            <CiEdit
-              size={22}
-              className="cursor-pointer text-yellow-600 dark:group-hover:text-yellow-400 group-hover:text-gray-900"
-            />
+            <CiEdit size={22} className="cursor-pointer text-gray-900" />
           </button>
         </>
       )}

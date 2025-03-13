@@ -78,14 +78,14 @@ const SocialLinksEditor = ({ socialLinks }: SocialLinksEditorProps) => {
               key={index}
               className="flex items-center justify-between min-h-[71px] p-4 bg-card border-[1px] borderColor rounded-md relative overflow-hidden"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 animate-fade-down cust-trans">
                 {socialIcons[normalizedPlatform] || <FaLinkedin size={20} className="text-primary-dark"/>} 
                 <span className="font-medium">{normalizedPlatform}</span>
               </div>
 
               <div className="flex items-center gap-2">
                 {editIndex === index ? (
-                  <div className="flex gap-2 absolute top-0 start-0 w-full h-full items-center justify-between p-4 animate-fade-up cust-trans">
+                  <div className="flex gap-2  absolute top-0 start-0 w-full h-full items-center justify-between p-4 animate-fade-up cust-trans">
                     <Input
                       value={editedUrl}
                       onChange={(e) => setEditedUrl(e.target.value)}
@@ -116,13 +116,12 @@ const SocialLinksEditor = ({ socialLinks }: SocialLinksEditorProps) => {
                   <button
                     aria-label="تغيير او تعديل عنصر اساسي"
                     name="تغيير او تعديل عنصر اساسي"
-                    className="p-2 rounded-md h-fit dark:hover:bg-primary/20 hover:bg-gray-200 group cust-trans"
                     onClick={() => handleEdit(index, url)}
+                    className="p-1 rounded-md bg-yellow-500 hover:bg-yellow-600 group cust-trans flex items-center justify-center h-[30px] w-[40px] animate-fade-down"
                   >
                     <CiEdit
                       size={22}
-                      className="cursor-pointer cust-trans text-yellow-600 dark:group-hover:text-yellow-400 group-hover:text-gray-900"
-                    />
+                      className="cursor-pointer text-gray-900" />
                   </button>
                 )}
               </div>

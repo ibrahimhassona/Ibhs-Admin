@@ -38,12 +38,13 @@
     "edit": "تعديل",
     "databaseUpdateFailed": "فشل تحديث قاعدة البيانات.",
     "databaseUpdatedSuccessfully": "تم تحديث قاعدة البيانات بنجاح!",
-    "uploaded":"!نجح التحميل",
+    "uploaded": "!نجح التحميل",
     "uploadFailed": "فشل تحميل الصورة.",
-    "update_failed":" فشل التحديث",
-    "update_success":"تم التحديث بنجاح",
-    "saving": "جاري الحفظ..."
-
+    "update_failed": "فشل التحديث ❌",
+    "update_success": "تم التحديث بنجاح ✅",
+    "saving": "جاري الحفظ...",
+    "unexpected_error": "حدث خطأ غير متوقع",
+    "no_about_me": "لا توجد معلومات متاحة"
   },
   "Skills": {
     "Skills": "مهارات",

@@ -40,10 +40,12 @@
     "databaseUpdatedSuccessfully": "Database updated successfully!",
     "uploaded":"uploaded successfully!",
     "uploadFailed": "Failed to upload image.",
-    "update_failed": "Update failed",
-    "update_success": "Update successful",
-    "saving": "Saving..."
-  },
+    "update_failed": "Update failed ❌",
+    "update_success": "Updated successfully ✅",
+    "saving": "Saving...",
+    "unexpected_error": "An unexpected error occurred",
+    "no_about_me": "No information available"
+      },
   "Skills": {
     "Skills": "Skills",
     "personalskills": "Personal Skills",
