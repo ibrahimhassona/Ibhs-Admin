@@ -99,8 +99,8 @@ const Item: React.FC<ItemProps> = ({
           <div className="flex gap-2 items-center">
             <button
               onClick={handleSave}
-              className="doneBtn"
-              disabled={loading}
+              className="doneBtn disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={loading||editedValue==value}
               aria-label="save"
             >
               {loading ? (

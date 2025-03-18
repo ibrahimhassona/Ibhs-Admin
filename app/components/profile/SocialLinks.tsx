@@ -47,26 +47,29 @@ const SocialLinksEditor = ({ socialLinks }: SocialLinksEditorProps) => {
   }, []);
 
   // ✅ حفظ التعديلات
-  const handleSave = useCallback(async (index: number) => {
-    setLoading(true);
-    const updatedLinks = [...links];
-    updatedLinks[index].url = editedUrl;
-    setLinks(updatedLinks);
+  const handleSave = useCallback(
+    async (index: number) => {
+      setLoading(true);
+      const updatedLinks = [...links];
+      updatedLinks[index].url = editedUrl;
+      setLinks(updatedLinks);
 
-    const { error } = await supabase
-      .from("Personal_information")
-      .update({ social_links: updatedLinks })
-      .in("language", ["ar", "en"]);
+      const { error } = await supabase
+        .from("Personal_information")
+        .update({ social_links: updatedLinks })
+        .in("language", ["ar", "en"]);
 
-    if (error) {
-      console.error("❌ Error updating social links:", error);
-      toast.error(t("update_failed") + " ❌", { description: error.message });
-    } else {
-      toast.success(`${t("update_success")} ✅`);
-      setEditIndex(null);
-    }
-    setLoading(false);
-  }, [editedUrl, links, t]);
+      if (error) {
+        console.error("❌ Error updating social links:", error);
+        toast.error(t("update_failed") + " ❌", { description: error.message });
+      } else {
+        toast.success(`${t("update_success")} ✅`);
+        setEditIndex(null);
+      }
+      setLoading(false);
+    },
+    [editedUrl, links, t]
+  );
 
   return (
     <div>
@@ -79,7 +82,9 @@ const SocialLinksEditor = ({ socialLinks }: SocialLinksEditorProps) => {
               className="flex items-center justify-between min-h-[71px] p-4 bg-card border-[1px] borderColor rounded-md relative overflow-hidden"
             >
               <div className="flex items-center gap-3 animate-fade-down cust-trans">
-                {socialIcons[normalizedPlatform] || <FaLinkedin size={20} className="text-primary-dark"/>} 
+                {socialIcons[normalizedPlatform] || (
+                  <FaLinkedin size={20} className="text-primary-dark" />
+                )}
                 <span className="font-medium">{normalizedPlatform}</span>
               </div>
 
@@ -94,12 +99,16 @@ const SocialLinksEditor = ({ socialLinks }: SocialLinksEditorProps) => {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleSave(index)}
-                        className="doneBtn disabled:opacity-50"
+                        className={`doneBtn disabled:opacity-50 disabled:cursor-not-allowed`}
                         aria-label={t("save")}
                         name={t("save")}
-                        disabled={loading}
+                        disabled={editedUrl == url || loading}
                       >
-                        {loading ? <ImSpinner10 size={18} className="animate-spin" /> : t("save")}
+                        {loading ? (
+                          <ImSpinner10 size={18} className="animate-spin" />
+                        ) : (
+                          t("save")
+                        )}
                       </button>
                       <button
                         onClick={() => !loading && setEditIndex(null)}
@@ -121,7 +130,8 @@ const SocialLinksEditor = ({ socialLinks }: SocialLinksEditorProps) => {
                   >
                     <CiEdit
                       size={22}
-                      className="cursor-pointer text-gray-900" />
+                      className="cursor-pointer text-gray-900"
+                    />
                   </button>
                 )}
               </div>
