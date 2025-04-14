@@ -9,18 +9,18 @@ const BottomOfCard = ({ project }: { project: Project }) => {
     <div className="flex items-center justify-between max-sm:flex-wrap gap-4">
       {/* -------- Links -------- */}
       <div className=" flex gap-3">
-        {project.github && (
+        {project.links?.repo && (
           <Link
-            href={project.github}
+            href={project.links?.repo}
             target="_blank"
             className="flex items-center gap-1 text-white bg-blue-400 text-sm hover:underline cust-trans justify-center w-6 h-6 rounded-sm"
           >
             <FaGithub size={14} />
           </Link>
         )}
-        {project.liveProject && (
+        {project.links?.live && (
           <Link
-            href={project.liveProject}
+          href={project.links?.live}
             target="_blank"
             className="flex items-center gap-1 text-white bg-green-400 text-sm hover:underline cust-trans justify-center w-6 h-6 rounded-sm"
           >

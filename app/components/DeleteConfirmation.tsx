@@ -9,7 +9,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "./ui/alert-dialog"
-  import { Button } from "./ui/button"
 
   import { useTranslations } from "next-intl" // إذا كنت تستخدم الترجمة
   
@@ -26,13 +25,11 @@ import {
     return (
       <AlertDialog >
         <AlertDialogTrigger asChild>
-          <Button
-            variant="destructive"
-            size="icon"
-            // className={`${style}`}
+          <button
+            className={`bg-red-600 hover:bg-red-500 p-2 cust-trans rounded-md text-white`}
           >
             {children}
-          </Button>
+          </button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>

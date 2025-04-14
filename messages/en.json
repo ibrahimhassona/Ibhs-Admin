@@ -49,7 +49,8 @@
     "delete": "Delete",
     "confirm": "Confirm",
     "delete_confirm_message": "This action cannot be undone. Are you sure you want to delete this item?",
-    "delete_confirm_title": "Are you sure?"
+    "delete_confirm_title": "Are you sure?",
+    "added": "Added"
   },
   "Skills": {
     "Skills": "Skills",
@@ -61,5 +62,9 @@
     "title": "Title",
     "save": "Save",
     "description": "Description"
+  },
+  "projects": {
+    "shared": "Collaborated with a team",
+    "full": "Solo project"
   }
 }
