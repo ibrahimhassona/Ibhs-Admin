@@ -76,7 +76,7 @@ const ImageComponent: React.FC<{
       } catch (error:unknown) {
         if (error instanceof Error) {
           console.error("❌ Error uploading image:", error.message);
-          toast.error(t("uploadFailed"));
+          toast.info(t("uploadFailed"));
         } else {
           console.error("❌ Unknown error:", error);
           toast.error(t("uploadFailed"));

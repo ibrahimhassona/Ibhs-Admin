@@ -1,14 +1,46 @@
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaExternalLinkAlt, FaGithub, FaVideo } from "react-icons/fa";
 import { Project } from "./ProjectsSection";
+import { DeleteConfirmation } from "../DeleteConfirmation";
+import AddAndEditDialog from "../AddAndEditDialog";
 
-const BottomOfCard = ({ project }: { project: Project }) => {
+const BottomOfCard = ({ 
+  project,
+  onUpdate,
+  onDelete
+}: { 
+  project: Project;
+  onUpdate?: (updatedProject: Project) => void;
+  onDelete?: (projectId: string | number) => void;
+}) => {
+  // State to control edit dialog visibility
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  // Handle project update
+  const handleProjectUpdate = (updatedProject: Project) => {
+    if (onUpdate) {
+      onUpdate({
+        ...updatedProject,
+        id: project.id // Ensure the ID is preserved
+      });
+      console.log("Updated Project:====>", updatedProject);
+    }
+    console.log("Updated Project without realtime :====>", updatedProject);
+  };
+
+  // Handle project deletion
+  const handleDelete = () => {
+    if (onDelete && project.id) {
+      onDelete(project.id);
+    }
+  };
+
   return (
     <div className="flex items-center justify-between max-sm:flex-wrap gap-4">
       {/* -------- Links -------- */}
-      <div className=" flex gap-3">
+      <div className="flex gap-3">
         {project.links?.repo && (
           <Link
             href={project.links?.repo}
@@ -20,7 +52,7 @@ const BottomOfCard = ({ project }: { project: Project }) => {
         )}
         {project.links?.live && (
           <Link
-          href={project.links?.live}
+            href={project.links?.live}
             target="_blank"
             className="flex items-center gap-1 text-white bg-green-400 text-sm hover:underline cust-trans justify-center w-6 h-6 rounded-sm"
           >
@@ -36,25 +68,24 @@ const BottomOfCard = ({ project }: { project: Project }) => {
             <FaVideo size={14} />
           </Link>
         )}
-        {/* -------- Delete & Edit -------- */}
       </div>
-      <div className="flex items-center gap-4 ">
-        <button
-          name="edit"
-          aria-label="edit"
-          className="p-1 cust-trans text-white bg-yellow-600 rounded-sm hover:bg-yellow-500"
-          //   onClick={() => startEditing(index)}
+      <div className="flex items-center gap-2">
+
+        {/* Edit Dialog - Hidden until edit button is clicked */}
+        <AddAndEditDialog
+          isOpen={isEditDialogOpen}
+          setIsOpen={setIsEditDialogOpen}
+          isEditMode={true}
+          currentProject={project}
+          onSubmit={handleProjectUpdate}
         >
           <PencilIcon size={16} />
-        </button>
-        <button
-          name="delete"
-          aria-label="delete"
-          className="p-1 cust-trans text-white bg-red-600 rounded-sm hover:bg-red-500"
-          // onClick={() => deleteOpinion(index)}
-        >
+        </AddAndEditDialog>
+
+        {/* Delete Confirmation */}
+        <DeleteConfirmation onConfirm={handleDelete}>
           <Trash2Icon size={16} />
-        </button>
+        </DeleteConfirmation>
       </div>
     </div>
   );

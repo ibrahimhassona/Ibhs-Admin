@@ -50,7 +50,9 @@
     "confirm": "تأكيد",
     "delete_confirm_message": "لا يمكن التراجع عن هذا الإجراء. هل أنت متأكد أنك تريد حذف هذا العنصر؟",
     "delete_confirm_title": "هل أنت متأكد؟",
-    "added":"تمت الاضافة"
+    "added": "تمت الاضافة",
+    "empty_field_error": "يرجى ملء الحقول المطلوبة"
+
   },
   "Skills": {
     "Skills": "مهارات",
@@ -63,8 +65,28 @@
     "title": "العنوان",
     "description": "الوصف"
   },
-  "projects":{
-    "shared":"بالاشتراك مع تيم",
-    "full":"منفرد"
+  "projects": {
+    "shared": "بالاشتراك مع تيم",
+    "full": "منفرد",
+    "addNewProject": "إضافة مشروع جديد",
+    "editProject": "تعديل المشروع",
+    "image": "صورة المشروع",
+    "title": "عنوان المشروع",
+    "status": "حالة المشروع",
+    "technologies": "التقنيات (افصل بين كل تقنية بفاصلة)",
+    "date": "تاريخ النشر",
+    "description": "الوصف",
+    "githubLink": "رابط GitHub",
+    "liveLink": "رابط المشروع المباشر",
+    "videoLink": "رابط الفيديو",
+    "save": "حفظ المشروع",
+    "select_project_status": "اختر حالة المشروع",
+    "isfeature": "مميز؟",
+    "slug": "الرابط الدائم",
+    "yes": "نعم",
+    "no": "لا",
+    "please_fill_required_fields": "يرجى ملء الحقول المطلوبة",
+    "project_added_successfully": "تم إضافة المشروع بنجاح",
+    "error_adding_project": "خطأ في إضافة المشروع"
   }
 }

@@ -35,7 +35,7 @@ const WorkPrinciples = ({
 
   // ------------ Add New Principle ---------
   const addNewPrinciple = async (newItem: string) => {
-    if (!newItem.trim()) return toast.error(t("empty_field_error"));
+    if (!newItem.trim()) return toast.info(t("empty_field_error"));
     const updatedArray: string[] = [...personalInfo, newItem.trim()];
     setLoading((prev) => ({ ...prev, add: true }));
 
