@@ -5,7 +5,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import localFont from "next/font/local";
-import { Toaster } from "../components/ui/sonner"
+import { Toaster } from "../components/ui/sonner";
 const cairo = localFont({
   src: "../fonts/Cairo-VF.ttf",
   variable: "--font-cairo",
@@ -24,6 +24,7 @@ import type { ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { ReduxProvider } from "./Provider";
 
 interface Params {
   locale: string;
@@ -56,17 +57,19 @@ export default async function RootLayout({
             roboto.variable
           } bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark`}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NextIntlClientProvider messages={messages}>
-              {children}
-              <Toaster position="top-center" />
-            </NextIntlClientProvider>
-          </ThemeProvider>
+          <ReduxProvider >
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NextIntlClientProvider messages={messages}>
+                {children}
+                <Toaster position="top-center" />
+              </NextIntlClientProvider>
+            </ThemeProvider>
+          </ReduxProvider>
         </body>
       </SessionProvider>
     </html>

@@ -5,23 +5,7 @@ import ProjectsList from "./ProjectsList";
 import { getProjects } from "@/lib/getData";
 import { useLocale, useTranslations } from "next-intl";
 import AddAndEditDialog from "../AddAndEditDialog";
-
-export interface Project {
-  id?: string;
-  image: string;
-  title: string;
-  slug: string;
-  status: string;
-  technologies:string[];
-  description: string;
-  date: string;
-  isFeature: string;
-  video: string;
-  links: {
-    live: string;
-    repo: string;
-  };
-}
+import { Project } from "@/lib/types";
 
 export default function ProjectsComponent() {
   // State to manage the addition of a new project
@@ -57,7 +41,7 @@ export default function ProjectsComponent() {
         isOpen={isAdding}
         setIsOpen={setIsAdding}
         isEditMode={false}
-        onSubmit={handleAddProject}
+        // onSubmit={handleAddProject}
       >
         {t("addNewProject")}
         <MdAdd size={20} />

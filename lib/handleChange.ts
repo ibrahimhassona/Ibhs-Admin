@@ -1,12 +1,30 @@
-import { Project } from "@/app/components/projects/ProjectsSection";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent } from "react";
+import { Project } from "./types";
+import { AppDispatch } from "./store"; 
+import { setCurrentProject } from "@/features/projects/projectsSlice";
 
-
-
-  export const handleChange =
-  <T>(setFormData: Dispatch<SetStateAction<T>>) =>
+export const handleChange =
+  (dispatch: AppDispatch, formData: Project | null) =>
   (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // إذا كان formData فارغًا (null)، قم بإنشاء كائن فارغ بالهيكل الأساسي
+    const currentData = formData || {
+      image: "",
+      title: "",
+      slug: "",
+      status: "",
+      technologies: [],
+      description: "",
+      date: "",
+      isFeature: "",
+      video: "",
+      links: {
+        live: "",
+        repo: ""
+      }
+    };
+
     const { name, value } = e.target;
+    let updatedData: Partial<Project> = {};
 
     if (
       name === "image" &&
@@ -14,33 +32,49 @@ import { ChangeEvent, Dispatch, SetStateAction } from "react";
       e.target.files?.[0]
     ) {
       const file = e.target.files[0];
-      setFormData((prev) => ({
-        ...prev,
-        image: URL.createObjectURL(file),
-      }));
+      // تحويل الملف إلى URL مؤقت لأن نوع image هو string
+      const imageUrl = URL.createObjectURL(file);
+      updatedData = {
+        ...updatedData,
+        image: imageUrl
+      };
+      console.log('Selected File URL:', imageUrl);
     } else if (name === "repo" || name === "live") {
-      setFormData((prev) => ({
-        ...prev,
+      // التعامل مع الروابط
+      updatedData = {
+        ...updatedData,
         links: {
-          ...(prev as Project).links,
-          [name]: value,
-        },
-      }));
-    } else if (name === "status" || name === "isFeature") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value === "true",
-      }));
+          ...currentData.links,
+          [name]: value
+        }
+      };
+    } else if (name === "status") {
+      // تعيين قيمة status
+      updatedData = {
+        ...updatedData,
+        status: value
+      };
+    } else if (name === "isFeature") {
+      // تعيين قيمة isFeature
+      updatedData = {
+        ...updatedData,
+        isFeature: value
+      };
     } else if (name === "technologies") {
+      // تقسيم النص إلى مصفوفة
       const techArray = value.split(",").map((tech) => tech.trim());
-      setFormData((prev) => ({
-        ...prev,
-        technologies: techArray as Array<string>,
-      }));
+      updatedData = {
+        ...updatedData,
+        technologies: techArray
+      };
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      // التعامل مع باقي الحقول
+      updatedData = {
+        ...updatedData,
+        [name]: value
+      };
     }
+
+    // إرسال الحالة المحدثة عبر dispatch
+    dispatch(setCurrentProject({ ...currentData, ...updatedData }));
   };

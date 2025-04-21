@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Project } from "./projects/ProjectsSection";
-import { useLocale, useTranslations } from "next-intl"; // Import the translation hook
+import { useLocale, useTranslations } from "next-intl";
 import { addNewProject } from "@/lib/CRUD";
 import ReusableSelect from "./ReusableSelect";
 import { TbLabelImportantFilled } from "react-icons/tb";
@@ -9,107 +8,157 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { handleChange as handleInputChange } from "@/lib/handleChange";
+import { Project } from "@/lib/types";
+import { updateProject, setCurrentProject } from "@/features/projects/projectsSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 const AddAndEditDialog = ({
   isOpen,
   setIsOpen,
   isEditMode = false,
-  currentProject = null,
-  onSubmit,
   children,
+  currentRealProject
 }: {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   isEditMode?: boolean;
-  currentProject?: Project | null;
-  onSubmit: (data: Project) => void;
   children: React.ReactNode;
+  currentRealProject?: Project
 }) => {
-
-
-  const t = useTranslations("projects"); // Use the translation hook
+  const t = useTranslations("projects");
   const locale = useLocale();
-  // ------------ Main State to collect The project -------
-  const [formData, setFormData] = useState<Project>({
-    image: "",
-    title: "",
-    slug: "",
-    status: "", // changed to boolean
-    technologies: [],
-    description: "",
-    date: "",
-    isFeature: "false",
-    video: "",
-    links: {
-      live: "",
-      repo: "",
-    },
-  });
+  const dispatch = useAppDispatch();
+  const currentProject = useAppSelector((state) => state.projects.currentProject);
 
-
-
-const handleAddNewProject = async () => {
-  await addNewProject(formData, locale, t);
-};
-
-
+  // Initialize form data when dialog opens or edit mode changes
   useEffect(() => {
-    if (isEditMode && currentProject) {
-      // Populate with current project data when in edit mode
-      setFormData({
-        image: currentProject.image || "",
-        title: currentProject.title || "",
-        slug: currentProject.slug || "",
-        status: currentProject.status || "",
-        technologies:currentProject.technologies||[], 
-        description: currentProject.description || "",
-        date: currentProject.date || "",
-        isFeature: currentProject.isFeature ? "true" : "false", // Convert boolean to string
-        video: currentProject.video || "",
-        links: {
-          live: currentProject.links?.live || "",
-          repo: currentProject.links?.repo || "",
-        },
-      });
-    } else {
-      // Clear form if in add mode
-      setFormData({
-        image: "",
-        title: "",
-        slug: "",
-        status: "",
-        technologies: [],
-        description: "",
-        date: "",
-        isFeature: "false",
-        video: "",
-        links: {
-          live: "",
-          repo: "",
-        },
-      });
-    }
-  }, [isEditMode, currentProject]);
-
-  // Handle input changes
-const handleChange=handleInputChange<Project>(setFormData)
-// ---- select the type of function ----
-  const typeFunction = async () => {
-    if (isEditMode) {
-      if (formData) {
-        onSubmit(formData); // sent to the parent component
-        console.log("formData sent to bottom card ");
+    if (isOpen) {
+      if (isEditMode && currentRealProject) {
+        // When editing, populate form with the real project data
+        dispatch(setCurrentProject(currentRealProject));
+      } else if (!isEditMode) {
+        // When adding new, reset to empty form
+        dispatch(setCurrentProject({
+          image: "",
+          title: "",
+          slug: "",
+          status: "",
+          technologies: [],
+          description: "",
+          date: "",
+          isFeature: "",
+          video: "",
+          links: {
+            live: "",
+            repo: ""
+          }
+        }));
       }
-    } else {
-      await handleAddNewProject();
-      console.log("New Project:", formData);
+    }
+  }, [isOpen, isEditMode, currentRealProject, dispatch]);
+
+  const handleAddNewProject = async () => {
+    if (currentProject) {
+      await addNewProject(currentProject, locale, t);
+      setIsOpen(false); // Close dialog after saving
     }
   };
 
+  const handleUpdateProject = async () => {
+    if (currentProject) {
+      dispatch(updateProject(currentProject));
+      // Here you would typically call your API to update the project
+      // await updateProjectInDatabase(currentProject);
+      setIsOpen(false); // Close dialog after saving
+    }
+  };
 
-return (
-  <Dialog open={isOpen} onOpenChange={setIsOpen}>
+  const handleSave = async () => {
+    if (isEditMode) {
+      await handleUpdateProject();
+    } else {
+      await handleAddNewProject();
+    }
+  };
+
+// إنشاء معالج للتغييرات في حقول النموذج
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const { name, value } = e.target;
+  
+  // إذا كان currentProject هو null، قم بإنشاء هيكل مشروع فارغ افتراضي
+  const safeCurrentProject: Project = currentProject || {
+    image: "",
+    title: "",
+    slug: "",
+    status: "",
+    technologies: [],
+    description: "",
+    date: "",
+    isFeature: "",
+    video: "",
+    links: {
+      live: "",
+      repo: ""
+    }
+  };
+  
+  // الآن استخدم safeCurrentProject الذي من المؤكد أنه من نوع Project
+  if (name === "image" && e.target instanceof HTMLInputElement && e.target.files?.[0]) {
+    const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
+    dispatch(setCurrentProject({ ...safeCurrentProject, image: imageUrl }));
+  } 
+  // التعامل مع خصائص كائن الروابط
+  else if (name === "repo" || name === "live") {
+    dispatch(setCurrentProject({
+      ...safeCurrentProject,
+      links: {
+        ...safeCurrentProject.links,
+        [name]: value
+      }
+    }));
+  } 
+  // التعامل مع مصفوفة التقنيات
+  else if (name === "technologies") {
+    const techArray = value.split(",").map((tech) => tech.trim());
+    dispatch(setCurrentProject({ 
+      ...safeCurrentProject, 
+      technologies: techArray 
+    }));
+  } 
+  // التعامل مع جميع الحقول القياسية الأخرى
+  else {
+    dispatch(setCurrentProject({ 
+      ...safeCurrentProject, 
+      [name]: value 
+    }));
+  }
+};
+// معالج مخصص لمدخلات التحديد 
+const handleSelectChange = (name: string, value: string) => {
+  const safeCurrentProject: Project = currentProject || {
+    image: "",
+    title: "",
+    slug: "",
+    status: "",
+    technologies: [],
+    description: "",
+    date: "",
+    isFeature: "",
+    video: "",
+    links: {
+      live: "",
+      repo: ""
+    }
+  };
+  
+  dispatch(setCurrentProject({ 
+    ...safeCurrentProject, 
+    [name]: value 
+  }));
+};
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <button
           aria-label={t("addNewProject")}
@@ -132,11 +181,11 @@ return (
           <div>
             <label
               htmlFor="image"
-              className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("image")}
             </label>
@@ -145,7 +194,7 @@ return (
               name="image"
               id="image"
               accept="image/*"
-              onChange={handleChange}
+              onChange={handleInputChange}
               aria-label={t("image")}
             />
           </div>
@@ -153,39 +202,40 @@ return (
           <div>
             <label
               htmlFor="title"
-              className="text-primary text-[10px]  mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("title")}
             </label>
             <Input
               placeholder={t("title")}
-              value={formData.title}
+              value={currentProject?.title || ""}
               name="title"
               id="title"
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
+          
           <div>
             <label
-              htmlFor="title"
-              className="text-primary text-[10px]  mb-1 flex items-center gap-1"
+              htmlFor="slug"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("slug")}
             </label>
             <Input
               placeholder={t("slug")}
-              value={formData.slug}
+              value={currentProject?.slug || ""}
               name="slug"
               id="slug"
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -193,21 +243,19 @@ return (
             <div className="flex-1">
               <label
                 htmlFor="isFeature"
-                className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+                className="text-primary text-[10px] mb-1 flex items-center gap-1"
               >
                 <TbLabelImportantFilled
                   size={12}
-                  className={`${locale == "ar" ? "rotate-180" : ""}`}
+                  className={`${locale === "ar" ? "rotate-180" : ""}`}
                 />
                 {""}
                 {t("isfeature")}
               </label>
               <ReusableSelect
                 name="isFeature"
-                value={formData.isFeature}
-                onChange={(value) =>
-                  setFormData({ ...formData, isFeature: value })
-                }
+                value={currentProject?.isFeature || ""}
+                onChange={(value) => handleSelectChange("isFeature", value)}
                 options={[
                   { value: "true", label: t("yes") },
                   { value: "false", label: t("no") },
@@ -219,20 +267,18 @@ return (
             <div className="flex-1">
               <label
                 htmlFor="status"
-                className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+                className="text-primary text-[10px] mb-1 flex items-center gap-1"
               >
                 <TbLabelImportantFilled
                   size={12}
-                  className={`${locale == "ar" ? "rotate-180" : ""}`}
+                  className={`${locale === "ar" ? "rotate-180" : ""}`}
                 />{" "}
                 {t("status")}
               </label>
               <ReusableSelect
                 name="status"
-                value={formData.status}
-                onChange={(value) =>
-                  setFormData({ ...formData, status: value })
-                }
+                value={currentProject?.status || ""}
+                onChange={(value) => handleSelectChange("status", value)}
                 options={[
                   { value: "full", label: t("full") },
                   { value: "shared", label: t("shared") },
@@ -245,11 +291,11 @@ return (
           <div>
             <label
               htmlFor="technologies"
-              className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("technologies")}
             </label>
@@ -257,39 +303,39 @@ return (
               placeholder={t("technologies")}
               name="technologies"
               id="technologies"
-              value={formData.technologies}
-              onChange={handleChange}
+              value={currentProject?.technologies?.join(", ") || ""}
+              onChange={handleInputChange}
             />
           </div>
 
           <div>
             <label
               htmlFor="date"
-              className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("date")}
             </label>
             <Input
               placeholder={t("date")}
-              value={formData.date}
+              value={currentProject?.date || ""}
               name="date"
               id="date"
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
 
           <div>
             <label
               htmlFor="description"
-              className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("description")}
             </label>
@@ -297,19 +343,19 @@ return (
               placeholder={t("description")}
               name="description"
               id="description"
-              value={formData.description}
-              onChange={handleChange}
+              value={currentProject?.description || ""}
+              onChange={handleInputChange}
             />
           </div>
 
           <div>
             <label
               htmlFor="repo"
-              className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("githubLink")}
             </label>
@@ -317,39 +363,39 @@ return (
               placeholder={t("githubLink")}
               name="repo"
               id="repo"
-              value={formData.links.repo}
-              onChange={handleChange}
+              value={currentProject?.links?.repo || ""}
+              onChange={handleInputChange}
             />
           </div>
 
           <div>
             <label
               htmlFor="live"
-              className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("liveLink")}
             </label>
             <Input
               placeholder={t("liveLink")}
-              value={formData?.links.live}
+              value={currentProject?.links?.live || ""}
               name="live"
               id="live"
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
 
           <div>
             <label
               htmlFor="video"
-              className="text-primary text-[10px]   mb-1 flex items-center gap-1"
+              className="text-primary text-[10px] mb-1 flex items-center gap-1"
             >
               <TbLabelImportantFilled
                 size={12}
-                className={`${locale == "ar" ? "rotate-180" : ""}`}
+                className={`${locale === "ar" ? "rotate-180" : ""}`}
               />{" "}
               {t("videoLink")}
             </label>
@@ -357,13 +403,13 @@ return (
               placeholder={t("videoLink")}
               name="video"
               id="video"
-              value={formData?.video}
-              onChange={handleChange}
+              value={currentProject?.video || ""}
+              onChange={handleInputChange}
             />
           </div>
         </div>
         <Button
-          onClick={typeFunction}
+          onClick={handleSave}
           className="w-fit mx-auto cust-trans text-white"
         >
           {t("save")}
