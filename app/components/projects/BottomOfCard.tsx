@@ -35,8 +35,7 @@ const BottomOfCard = ({ project }: { project: Project }) => {
       console.log("Project ID is missing");
     }
   };
-  let style =
-    "flex items-center gap-1 text-sm hover:underline cust-trans justify-center w-6 h-6 rounded-sm";
+  const style ="flex items-center gap-1 text-sm hover:underline cust-trans justify-center w-6 h-6 rounded-sm";
   return (
     <div className="flex items-center justify-between max-sm:flex-wrap gap-4">
       {/* -------- Links -------- */}

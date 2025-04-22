@@ -87,6 +87,11 @@
     "no": "لا",
     "please_fill_required_fields": "يرجى ملء الحقول المطلوبة",
     "project_added_successfully": "تم إضافة المشروع بنجاح",
-    "error_adding_project": "خطأ في إضافة المشروع"
+    "error_adding_project": "خطأ في إضافة المشروع",
+    "saving": "جاري الحفظ...",
+    "updateSuccess": "تم التحديث بنجاح",
+    "updateFailed": "فشل التحديث",
+    "addSuccess": "تمت الإضافة بنجاح",
+    "addFailed": "فشل الإضافة"
   }
 }

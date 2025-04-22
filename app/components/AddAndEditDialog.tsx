@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { addNewProject } from "@/lib/CRUD";
-import ReusableSelect from "./ReusableSelect";
 import { TbLabelImportantFilled } from "react-icons/tb";
 import { Input } from "./ui/input";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
@@ -9,154 +7,194 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Project } from "@/lib/types";
-import { updateProject, setCurrentProject } from "@/features/projects/projectsSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setCurrentProject, setProjects } from "@/features/projects/projectsSlice";
+import { useAppDispatch } from "@/lib/hooks";
+import ReusableSelect from "./ReusableSelect";
+import { handleRowOperation } from "@/lib/uploadImageToStorage";
+import Image from "next/image";
+import { toast } from "sonner";
+
+// Default empty project to prevent null values
+const defaultProject: Project = {
+  image: "",
+  title: "",
+  slug: "",
+  status: "",
+  technologies: [],
+  description: "",
+  date: "",
+  isFeature: "",
+  video: "",
+  links: {
+    live: "",
+    repo: "",
+  },
+};
 
 const AddAndEditDialog = ({
   isOpen,
   setIsOpen,
   isEditMode = false,
   children,
-  currentRealProject
+  currentRealProject,
 }: {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   isEditMode?: boolean;
   children: React.ReactNode;
-  currentRealProject?: Project
+  currentRealProject?: Project;
 }) => {
   const t = useTranslations("projects");
   const locale = useLocale();
   const dispatch = useAppDispatch();
-  const currentProject = useAppSelector((state) => state.projects.currentProject);
+
+  // Local state for editing and adding
+  const [editProject, setEditProject] = useState<Project>({ ...defaultProject });
+  const [newProject, setNewProject] = useState<Project>({ ...defaultProject });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Initialize form data when dialog opens or edit mode changes
   useEffect(() => {
     if (isOpen) {
       if (isEditMode && currentRealProject) {
-        // When editing, populate form with the real project data
-        dispatch(setCurrentProject(currentRealProject));
-      } else if (!isEditMode) {
-        // When adding new, reset to empty form
-        dispatch(setCurrentProject({
-          image: "",
-          title: "",
-          slug: "",
-          status: "",
-          technologies: [],
-          description: "",
-          date: "",
-          isFeature: "",
-          video: "",
+        setEditProject({
+          ...currentRealProject,
           links: {
-            live: "",
-            repo: ""
-          }
-        }));
+            live: currentRealProject.links?.live || "",
+            repo: currentRealProject.links?.repo || "",
+          },
+          technologies: currentRealProject.technologies || [],
+        });
+        setImageFile(null);
+      } else {
+        setNewProject({ ...defaultProject });
+        setImageFile(null);
       }
+      setErrorMessage(null);
     }
-  }, [isOpen, isEditMode, currentRealProject, dispatch]);
+  }, [isOpen, isEditMode, currentRealProject]);
 
-  const handleAddNewProject = async () => {
-    if (currentProject) {
-      await addNewProject(currentProject, locale, t);
-      setIsOpen(false); // Close dialog after saving
-    }
-  };
+  // Get current project based on mode
+  const currentProject = isEditMode ? editProject : newProject;
 
-  const handleUpdateProject = async () => {
-    if (currentProject) {
-      dispatch(updateProject(currentProject));
-      // Here you would typically call your API to update the project
-      // await updateProjectInDatabase(currentProject);
-      setIsOpen(false); // Close dialog after saving
-    }
-  };
+  // Handlers for input changes
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    const setter = isEditMode ? setEditProject : setNewProject;
 
-  const handleSave = async () => {
-    if (isEditMode) {
-      await handleUpdateProject();
+    if (name === "image" && e.target instanceof HTMLInputElement && e.target.files?.[0]) {
+      const file = e.target.files[0];
+      setImageFile(file);
+      const imageUrl = URL.createObjectURL(file);
+      setter((prev) => ({ ...prev, image: imageUrl }));
+    } else if (name === "repo" || name === "live") {
+      setter((prev) => ({
+        ...prev,
+        links: { ...prev.links, [name]: value },
+      }));
+    } else if (name === "technologies") {
+      const techArray = value.split(",").map((tech) => tech.trim());
+      setter((prev) => ({ ...prev, technologies: techArray }));
     } else {
-      await handleAddNewProject();
+      setter((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-// إنشاء معالج للتغييرات في حقول النموذج
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  const { name, value } = e.target;
-  
-  // إذا كان currentProject هو null، قم بإنشاء هيكل مشروع فارغ افتراضي
-  const safeCurrentProject: Project = currentProject || {
-    image: "",
-    title: "",
-    slug: "",
-    status: "",
-    technologies: [],
-    description: "",
-    date: "",
-    isFeature: "",
-    video: "",
-    links: {
-      live: "",
-      repo: ""
-    }
+  const handleSelectChange = (name: string, value: string) => {
+    const setter = isEditMode ? setEditProject : setNewProject;
+    setter((prev) => ({ ...prev, [name]: value }));
   };
-  
-  // الآن استخدم safeCurrentProject الذي من المؤكد أنه من نوع Project
-  if (name === "image" && e.target instanceof HTMLInputElement && e.target.files?.[0]) {
-    const file = e.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    dispatch(setCurrentProject({ ...safeCurrentProject, image: imageUrl }));
-  } 
-  // التعامل مع خصائص كائن الروابط
-  else if (name === "repo" || name === "live") {
-    dispatch(setCurrentProject({
-      ...safeCurrentProject,
-      links: {
-        ...safeCurrentProject.links,
-        [name]: value
+
+  // Safe getters
+  const getProjectValue = (field: keyof Project): string => {
+    return currentProject[field] as string || "";
+  };
+
+  const getLinkValue = (field: keyof typeof currentProject.links): string => {
+    return currentProject.links?.[field] || "";
+  };
+
+  const getTechnologies = (): string => {
+    return currentProject.technologies?.join(", ") || "";
+  };
+
+  // Validation
+  const validateProject = (project: Project): boolean => {
+    return !!project.title && !!project.slug && !!project.status;
+  };
+
+  // Save handler
+  const handleSave = async () => {
+    if (!validateProject(currentProject)) {
+      setErrorMessage(t("requiredFieldsMissing"));
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMessage(null);
+
+    try {
+      const imagePath = imageFile ? `${imageFile.name}` : "";
+      const projectData = {
+        ...currentProject,
+        technologies: currentProject.technologies || [],
+      };
+
+      if (isEditMode) {
+        const projectId = currentRealProject?.id;
+        if (!projectId) {
+          setErrorMessage("Project ID not found");
+          return;
+        }
+        // Use existing image if no new image is selected
+        if (!imageFile && currentRealProject?.image) {
+          projectData.image = currentRealProject.image;
+        }
+        const success = await handleRowOperation(
+          imageFile,
+          imagePath,
+          projectData,
+          true,
+          `projects-${locale}`,
+          projectId
+        );
+        if (success) {
+          dispatch(setCurrentProject(projectData));
+          toast.success(t("updateSuccess"));
+          setIsOpen(false);
+        } else {
+          toast.error(t("updateFailed"));
+          setErrorMessage(t("updateFailed"));
+        }
+      } else {
+        const success = await handleRowOperation(
+          imageFile,
+          imagePath,
+          projectData,
+          false,
+          `projects-${locale}`
+        );
+        if (success) {
+          dispatch(setProjects([projectData])); // Assuming addProject action exists
+          toast.success(t("addSuccess"));
+          setIsOpen(false);
+        } else {
+          setErrorMessage(t("addFailed"));
+          toast.error(t("addFailed"));
+        }
       }
-    }));
-  } 
-  // التعامل مع مصفوفة التقنيات
-  else if (name === "technologies") {
-    const techArray = value.split(",").map((tech) => tech.trim());
-    dispatch(setCurrentProject({ 
-      ...safeCurrentProject, 
-      technologies: techArray 
-    }));
-  } 
-  // التعامل مع جميع الحقول القياسية الأخرى
-  else {
-    dispatch(setCurrentProject({ 
-      ...safeCurrentProject, 
-      [name]: value 
-    }));
-  }
-};
-// معالج مخصص لمدخلات التحديد 
-const handleSelectChange = (name: string, value: string) => {
-  const safeCurrentProject: Project = currentProject || {
-    image: "",
-    title: "",
-    slug: "",
-    status: "",
-    technologies: [],
-    description: "",
-    date: "",
-    isFeature: "",
-    video: "",
-    links: {
-      live: "",
-      repo: ""
+    } catch (error) {
+      console.error("Error saving project:", error);
+      setErrorMessage(t("saveError"));
+    } finally {
+      setIsLoading(false);
     }
   };
-  
-  dispatch(setCurrentProject({ 
-    ...safeCurrentProject, 
-    [name]: value 
-  }));
-};
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -177,6 +215,7 @@ const handleSelectChange = (name: string, value: string) => {
         <h3 className="font-bold mb-4">
           {isEditMode ? t("editProject") : t("addNewProject")}
         </h3>
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <div className="space-y-3">
           <div>
             <label
@@ -197,6 +236,17 @@ const handleSelectChange = (name: string, value: string) => {
               onChange={handleInputChange}
               aria-label={t("image")}
             />
+            {currentProject.image && (
+              <div className="mt-2">
+                <Image
+                  width={100}
+                  height={100}
+                  src={currentProject.image}
+                  alt="Preview"
+                  className="h-20 w-auto object-contain rounded"
+                />
+              </div>
+            )}
           </div>
 
           <div>
@@ -212,13 +262,13 @@ const handleSelectChange = (name: string, value: string) => {
             </label>
             <Input
               placeholder={t("title")}
-              value={currentProject?.title || ""}
+              value={getProjectValue("title")}
               name="title"
               id="title"
               onChange={handleInputChange}
             />
           </div>
-          
+
           <div>
             <label
               htmlFor="slug"
@@ -232,7 +282,7 @@ const handleSelectChange = (name: string, value: string) => {
             </label>
             <Input
               placeholder={t("slug")}
-              value={currentProject?.slug || ""}
+              value={getProjectValue("slug")}
               name="slug"
               id="slug"
               onChange={handleInputChange}
@@ -254,7 +304,7 @@ const handleSelectChange = (name: string, value: string) => {
               </label>
               <ReusableSelect
                 name="isFeature"
-                value={currentProject?.isFeature || ""}
+                value={getProjectValue("isFeature")}
                 onChange={(value) => handleSelectChange("isFeature", value)}
                 options={[
                   { value: "true", label: t("yes") },
@@ -277,7 +327,7 @@ const handleSelectChange = (name: string, value: string) => {
               </label>
               <ReusableSelect
                 name="status"
-                value={currentProject?.status || ""}
+                value={getProjectValue("status")}
                 onChange={(value) => handleSelectChange("status", value)}
                 options={[
                   { value: "full", label: t("full") },
@@ -303,7 +353,7 @@ const handleSelectChange = (name: string, value: string) => {
               placeholder={t("technologies")}
               name="technologies"
               id="technologies"
-              value={currentProject?.technologies?.join(", ") || ""}
+              value={getTechnologies()}
               onChange={handleInputChange}
             />
           </div>
@@ -321,7 +371,7 @@ const handleSelectChange = (name: string, value: string) => {
             </label>
             <Input
               placeholder={t("date")}
-              value={currentProject?.date || ""}
+              value={getProjectValue("date")}
               name="date"
               id="date"
               onChange={handleInputChange}
@@ -343,7 +393,7 @@ const handleSelectChange = (name: string, value: string) => {
               placeholder={t("description")}
               name="description"
               id="description"
-              value={currentProject?.description || ""}
+              value={getProjectValue("description")}
               onChange={handleInputChange}
             />
           </div>
@@ -363,7 +413,7 @@ const handleSelectChange = (name: string, value: string) => {
               placeholder={t("githubLink")}
               name="repo"
               id="repo"
-              value={currentProject?.links?.repo || ""}
+              value={getLinkValue("repo")}
               onChange={handleInputChange}
             />
           </div>
@@ -381,7 +431,7 @@ const handleSelectChange = (name: string, value: string) => {
             </label>
             <Input
               placeholder={t("liveLink")}
-              value={currentProject?.links?.live || ""}
+              value={getLinkValue("live")}
               name="live"
               id="live"
               onChange={handleInputChange}
@@ -403,7 +453,7 @@ const handleSelectChange = (name: string, value: string) => {
               placeholder={t("videoLink")}
               name="video"
               id="video"
-              value={currentProject?.video || ""}
+              value={getProjectValue("video")}
               onChange={handleInputChange}
             />
           </div>
@@ -411,8 +461,9 @@ const handleSelectChange = (name: string, value: string) => {
         <Button
           onClick={handleSave}
           className="w-fit mx-auto cust-trans text-white"
+          disabled={isLoading}
         >
-          {t("save")}
+          {isLoading ? t("saving") : t("save")}
         </Button>
       </DialogContent>
     </Dialog>

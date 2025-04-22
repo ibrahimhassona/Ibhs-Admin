@@ -80,12 +80,17 @@
     "videoLink": "Video Link",
     "save": "Save Project",
     "select_project_status": "Select Project Status",
-    "isFeature": "Is Featured",
+    "isfeature": "Is Featured",
     "slug": "Slug",
     "yes": "Yes",
     "no": "No",
     "please_fill_required_fields": "Please fill in the required fields",
     "project_added_successfully": "Project added successfully",
-    "error_adding_project": "Error adding project"
+    "error_adding_project": "Error adding project",
+    "saving": "Saving...",
+    "updateSuccess": "Updated successfully",
+    "updateFailed": "Update failed",
+    "addSuccess": "Added successfully",
+    "addFailed": "Addition failed"
   }
 }
