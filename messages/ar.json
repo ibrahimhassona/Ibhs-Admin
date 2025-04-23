@@ -49,7 +49,7 @@
     "delete": "حذف",
     "confirm": "تأكيد",
     "delete_confirm_message": "لا يمكن التراجع عن هذا الإجراء. هل أنت متأكد أنك تريد حذف هذا العنصر؟",
-    "delete_confirm_title": "هل أنت متأكد؟",
+    "delete_confirm_title": "هل تريد حذف ؟",
     "added": "تمت الاضافة",
     "empty_field_error": "يرجى ملء الحقول المطلوبة"
 
@@ -92,6 +92,9 @@
     "updateSuccess": "تم التحديث بنجاح",
     "updateFailed": "فشل التحديث",
     "addSuccess": "تمت الإضافة بنجاح",
-    "addFailed": "فشل الإضافة"
+    "addFailed": "فشل الإضافة",
+    "deleteSuccess": "تم الحذف بنجاح",
+    "deleteFailed": "فشل الحذف",
+    "add": "إضافة"
   }
 }

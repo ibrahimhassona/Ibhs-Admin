@@ -12,8 +12,6 @@ export default function ProjectsComponent() {
   const [isAdding, setIsAdding] = useState(false);
   // -------- Projects --------
   const [projects, setProjects] = useState<Project[] | null>([]);
-  // ----- New Project -----
-
   // ------- Locale -------
   const locale = useLocale();
   const t = useTranslations("projects");
@@ -30,17 +28,14 @@ export default function ProjectsComponent() {
     };
     featchData();
   }, [locale]);
-
-  const handleAddProject = (newProject: Project) => {
-    console.log("New Project:====>", newProject);
-    // -- Create a new project and post it to Backend --
-  };
+  // ------- Add New Project -------
   return (
     <section className="">
       <AddAndEditDialog
         isOpen={isAdding}
         setIsOpen={setIsAdding}
         isEditMode={false}
+        style="px-4 py-2"
         // onSubmit={handleAddProject}
       >
         {t("addNewProject")}

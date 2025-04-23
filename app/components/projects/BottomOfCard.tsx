@@ -6,38 +6,37 @@ import { DeleteConfirmation } from "../DeleteConfirmation";
 import AddAndEditDialog from "../AddAndEditDialog";
 import { Project } from "@/lib/types";
 import { useAppDispatch } from "@/lib/hooks";
-import {
-  deleteProject,
-} from "@/features/projects/projectsSlice";
+import { deletedProject } from "@/features/projects/projectsSlice";
+import supabase from "@/lib/supabase";
+import { useLocale, useTranslations } from "next-intl";
+import { toast } from "sonner";
+import { GoStarFill } from "react-icons/go";
 
 const BottomOfCard = ({ project }: { project: Project }) => {
   const dispatch = useAppDispatch();
   // State to control edit dialog visibility
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-
-  // Handle project update
-  // const handleProjectUpdate = (updatedProject: Project) => {
-  //   if (onUpdate) {
-  //     onUpdate({
-  //       ...updatedProject,
-  //       id: project.id, // Ensure the ID is preserved
-  //     });
-  //     console.log("Updated Project:====>", updatedProject);
-  //   }
-  //   console.log("Updated Project without realtime :====>", updatedProject);
-  // };
-
+  const locale = useLocale();
+  const t = useTranslations("projects");
   // Handle project deletion
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (project.id) {
-      dispatch(deleteProject(project.id));
-    } else {
-      console.log("Project ID is missing");
+      const { error } = await supabase
+        .from(`projects-${locale}`)
+        .delete()
+        .eq("id", project.id);
+      if (!error) {
+        dispatch(deletedProject(project));
+        toast.success(t("deleteSuccess"));
+      } else {
+        toast.error(t("deleteFailed"));
+      }
     }
   };
-  const style ="flex items-center gap-1 text-sm hover:underline cust-trans justify-center w-6 h-6 rounded-sm";
+  const style =
+    "flex items-center gap-1 text-sm hover:underline cust-trans justify-center w-6 h-6 rounded-sm "
   return (
-    <div className="flex items-center justify-between max-sm:flex-wrap gap-4">
+    <div className="flex items-center justify-between max-sm:flex-wrap gap-4 mt-2">
       {/* -------- Links -------- */}
       <div className="flex gap-3">
         {project.links?.repo && (
@@ -67,6 +66,11 @@ const BottomOfCard = ({ project }: { project: Project }) => {
             <FaVideo size={14} />
           </Link>
         )}
+         {/* ------- IsFeature ------- */}
+      {project.isFeature && 
+      <span className=" text-yellow-500 px-1 py-[2px] rounded-md">
+        <GoStarFill size={20} className=""/>
+      </span>}
       </div>
       <div className="flex items-center gap-2">
         {/* Edit Dialog - Hidden until edit button is clicked */}
@@ -75,13 +79,16 @@ const BottomOfCard = ({ project }: { project: Project }) => {
           setIsOpen={setIsEditDialogOpen}
           isEditMode={true}
           currentRealProject={project}
-          // onSubmit={handleProjectUpdate}
+          style="px-3 py-1.5"
         >
           <PencilIcon size={16} />
         </AddAndEditDialog>
-
         {/* Delete Confirmation */}
-        <DeleteConfirmation onConfirm={handleDelete}>
+        <DeleteConfirmation
+          style="px-3 py-1.5"
+          onConfirm={handleDelete}
+          title={project.title}
+        >
           <Trash2Icon size={16} />
         </DeleteConfirmation>
       </div>

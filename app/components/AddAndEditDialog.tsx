@@ -13,6 +13,7 @@ import ReusableSelect from "./ReusableSelect";
 import { handleRowOperation } from "@/lib/uploadImageToStorage";
 import Image from "next/image";
 import { toast } from "sonner";
+import { FaSpinner } from "react-icons/fa";
 
 // Default empty project to prevent null values
 const defaultProject: Project = {
@@ -37,12 +38,14 @@ const AddAndEditDialog = ({
   isEditMode = false,
   children,
   currentRealProject,
+  style,
 }: {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   isEditMode?: boolean;
   children: React.ReactNode;
   currentRealProject?: Project;
+  style?: string;
 }) => {
   const t = useTranslations("projects");
   const locale = useLocale();
@@ -201,7 +204,7 @@ const AddAndEditDialog = ({
         <button
           aria-label={t("addNewProject")}
           name="add new project"
-          className="bg-primary-dark cust-trans hover:bg-primary text-white px-4 py-2 rounded-md flex items-center justify-between gap-2"
+          className={`bg-primary-dark cust-trans hover:bg-primary text-white  rounded-md flex items-center justify-between gap-2 ${style}`}
         >
           {children}
         </button>
@@ -463,7 +466,8 @@ const AddAndEditDialog = ({
           className="w-fit mx-auto cust-trans text-white"
           disabled={isLoading}
         >
-          {isLoading ? t("saving") : t("save")}
+          {isEditMode ? t("save") : t("add")}
+          {isLoading ? <FaSpinner className=" animate-spin" /> : null}
         </Button>
       </DialogContent>
     </Dialog>

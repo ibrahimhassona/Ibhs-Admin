@@ -10,16 +10,20 @@ import { useAppSelector } from "@/lib/hooks";
 const ProjectCard = ({
   project,
   locale,
+  style,
 }: {
   project: Project;
   locale: string;
+  style: string;
 }) => {
   // استخدم متغير حالة واحد فقط لتخزين بيانات المشروع
   const [displayedProject, setDisplayedProject] = useState<Project>(project);
-  
+
   // استمع للتغييرات في المشروع الحالي من Redux
-  const currentProjectFromRedux = useAppSelector((state) => state.projects.currentProject);
-  
+  const currentProjectFromRedux = useAppSelector(
+    (state) => state.projects.currentProject
+  );
+
   useEffect(() => {
     // تحقق إذا كان المشروع الذي يتم تحريره هو نفس المشروع في هذه البطاقة
     if (currentProjectFromRedux && currentProjectFromRedux.id === project.id) {
@@ -27,11 +31,11 @@ const ProjectCard = ({
       setDisplayedProject(currentProjectFromRedux);
     }
   }, [currentProjectFromRedux, project.id]);
-  
+
   return (
     <div
       key={displayedProject.id}
-      className="p-4 rounded-lg shadow-lg flex flex-col justify-between border borderColor relative"
+      className={`p-4 rounded-lg shadow-lg flex flex-col justify-between border borderColor relative ${style}`}
     >
       <Image
         src={displayedProject.image}
@@ -42,15 +46,22 @@ const ProjectCard = ({
         className="w-full h-40 object-cover rounded-md"
       />
       {/* ------- developeres ------- */}
-      <p
-        className={`text-sm text-primary border-[1px] custom-border text-nowrap absolute top-1 start-1 bg-background-light dark:bg-background-dark p-1 rounded-md`}
+      <div
+        className={`${
+          displayedProject.status === "Full" ? "text-primary" : "text-yellow-500"
+        } text-sm  border-[1px] custom-border text-nowrap absolute top-1 start-1 bg-background-light dark:bg-background-dark px-1 py-[2px] rounded-md`}
       >
         {displayedProject.status === "Full" ? (
-          <FaUserAlt size={14} />
+          <div className="flex items-start gap-1">
+            <FaUserAlt size={14} /> <span className="text-[10px]"> {displayedProject.status} </span>
+          </div>
         ) : (
-          <RiTeamFill size={16} />
+        <div className="flex items-start gap-1">
+          <RiTeamFill size={16} /> <span className="text-[10px]"> {displayedProject.status} </span>
+        </div>
         )}
-      </p>
+      </div>
+    
       {/* ------- Title  ------- */}
       <h3 className="text-lg font-semibold my-2">{displayedProject.title}</h3>
 
@@ -77,10 +88,7 @@ const ProjectCard = ({
         ))}
       </div>
       {/* --- Need to pass the 2 function delete , update here --- */}
-      <BottomOfCard
-        project={displayedProject}
-        // onUpdate={catchFromBottomOfCard}
-      />
+      <BottomOfCard project={displayedProject} />
     </div>
   );
 };

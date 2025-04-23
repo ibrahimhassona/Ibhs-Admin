@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 import supabase from "./supabase";
-import { Project } from "@/app/components/projects/ProjectsSection";
+import { Project } from "./types"; 
 
 type AddProjectFunction = (
   state: Project,

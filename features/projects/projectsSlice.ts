@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface ProjectsState {
   projects: Project[];
   currentProject: Project | null;
+  deletedProject: Project | null;
 }
 
 const initialState: ProjectsState = {
   projects: [],
   currentProject: null,
+  deletedProject: null,
 };
 
 const projectsSlice = createSlice({
@@ -35,15 +37,12 @@ const projectsSlice = createSlice({
         state.projects[index] = action.payload;
       }
     },
-    deleteProject: (state, action: PayloadAction<string>) => {
-      state.projects = state.projects.filter(
-        (project) => project.id !== action.payload
-      );
+    deletedProject: (state, action: PayloadAction<Project>) => {
+      state.deletedProject = action.payload //-- [PROJECT]
     },
     
   },
 });
 
-export const { setProjects, updateProject, deleteProject,setCurrentProject,resetCurrentProject } =
-  projectsSlice.actions;
+export const { setProjects, updateProject, deletedProject,setCurrentProject,resetCurrentProject } = projectsSlice.actions ;
 export default projectsSlice.reducer;

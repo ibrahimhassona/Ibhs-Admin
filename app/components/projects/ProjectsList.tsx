@@ -10,24 +10,29 @@ const ProjectsList = ({ projects }: { projects: Project[] | null }) => {
 
   const liveNewProjects = useAppSelector((state) => state.projects.projects);
   const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
+  const deletedProject = useAppSelector((state) => state.projects.deletedProject);
 
   //-- Here We Merged the local projects with the live projects to show them in the UI ---
   useEffect(() => {
     const allProjects = [...(projects || []), ...(liveNewProjects || [])];
-
     const uniqueProjects = Array.from(
       new Map(allProjects.map((p) => [p.id, p])).values()
     );
-
     setDisplayedProjects(uniqueProjects);
   }, [projects, liveNewProjects]);
+
 
   return (
     <>
       {displayedProjects.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
           {displayedProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} locale={locale} />
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              locale={locale}
+              style={`${deletedProject?.id === project?.id ? "destroy" : ""}`}
+            />
           ))}
         </div>
       ) : (

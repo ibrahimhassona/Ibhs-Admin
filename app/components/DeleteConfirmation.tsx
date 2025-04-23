@@ -14,11 +14,14 @@ import {
   
   export function DeleteConfirmation({
     onConfirm,
-    children
+    title,
+    children,
+    style
   }: {
     onConfirm: () => void;
     children: React.ReactNode;
-    
+    title?: string;
+    style?: string;
   }) {
     const t = useTranslations("Profile");
   
@@ -26,14 +29,16 @@ import {
       <AlertDialog >
         <AlertDialogTrigger asChild>
           <button
-            className={`bg-red-600 hover:bg-red-500 p-2 cust-trans rounded-md text-white`}
+            className={`bg-red-600 hover:bg-red-500 p-2 cust-trans rounded-md text-white ${style}`}
           >
             {children}
           </button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t("delete_confirm_title")}</AlertDialogTitle>
+            <AlertDialogTitle>{t("delete_confirm_title") }
+            {title && <span className="text-red-500 mx-5">{title}</span>}
+            </AlertDialogTitle>
             <AlertDialogDescription>
               {t("delete_confirm_message")}
             </AlertDialogDescription>

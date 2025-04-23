@@ -17,14 +17,8 @@ export default function ThemeSwitcher() {
     <div className="flex items-center justify-center">
       <button
         name={`Toggle ${theme === "light" ? "Dark" : "Light"} Mode`}
-        className={`relative inline-flex items-center w-12 h-6 rounded-full border-3 cust-trans ease-in-out
-      ${
-        theme === "light"
-          ? "bg-background-dark/20 border-primary-dark hover:border-gray-400"
-          : " bg-background-light/20 border-primary-dark "
-      }
-      focus:outline-none focus:ring-2 focus:ring-opacity-50
-     focus:ring-primary-dark
+        className={`relative inline-flex items-center w-12 h-6 rounded-full border-3 cust-trans ease-in-out border border-1 border-primary-dark
+      
       group`}
         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         aria-label={`Toggle ${theme === "light" ? "Dark" : "Light"} Mode`}
