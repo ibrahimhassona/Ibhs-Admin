@@ -94,6 +94,9 @@
     "addFailed": "Addition failed",
     "deleteSuccess": "Deleted successfully",
     "deleteFailed": "Deletion failed",
-    "add": "Add"
+    "add": "Add",
+    "requiredFieldsMissing":" Required Fields Missing !",
+    "idErrorNotFound": "ID not found",
+    "saveError": "An error occurred while saving. Please try again."
   }
 }

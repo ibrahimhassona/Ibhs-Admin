@@ -95,6 +95,9 @@
     "addFailed": "فشل الإضافة",
     "deleteSuccess": "تم الحذف بنجاح",
     "deleteFailed": "فشل الحذف",
-    "add": "إضافة"
+    "add": "إضافة",
+    "requiredFieldsMissing":"حقل مطلوب لم يتم ملئه !",
+    "idErrorNotFound": "لم يتم العثور على المعرف",
+  "saveError": "حدث خطأ أثناء الحفظ. حاول مرة أخرى."
   }
 }

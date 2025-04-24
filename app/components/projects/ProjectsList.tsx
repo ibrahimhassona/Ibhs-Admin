@@ -1,32 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProjectCard from "./ProjectCard";
 import { useLocale } from "next-intl";
 import LoaderOne from "../ui/LoaderOne";
 import { Project } from "@/lib/types";
 import { useAppSelector } from "@/lib/hooks";
 
-const ProjectsList = ({ projects }: { projects: Project[] | null }) => {
+const ProjectsList = ({ projects , isloading}: { projects: Project[] | null,isloading:boolean }) => {
   const locale = useLocale();
-
-  const liveNewProjects = useAppSelector((state) => state.projects.projects);
-  const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
   const deletedProject = useAppSelector((state) => state.projects.deletedProject);
-
-  //-- Here We Merged the local projects with the live projects to show them in the UI ---
-  useEffect(() => {
-    const allProjects = [...(projects || []), ...(liveNewProjects || [])];
-    const uniqueProjects = Array.from(
-      new Map(allProjects.map((p) => [p.id, p])).values()
-    );
-    setDisplayedProjects(uniqueProjects);
-  }, [projects, liveNewProjects]);
-
-
+  
   return (
     <>
-      {displayedProjects.length > 0 ? (
+      {!isloading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-          {displayedProjects.map((project) => (
+          {projects?.map((project) => (
             <ProjectCard
               key={project.slug}
               project={project}

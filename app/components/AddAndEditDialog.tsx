@@ -7,13 +7,17 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Project } from "@/lib/types";
-import { setCurrentProject, setProjects } from "@/features/projects/projectsSlice";
+import {
+  setCurrentProject,
+  setProjects,
+} from "@/features/projects/projectsSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import ReusableSelect from "./ReusableSelect";
 import { handleRowOperation } from "@/lib/uploadImageToStorage";
 import Image from "next/image";
 import { toast } from "sonner";
 import { FaSpinner } from "react-icons/fa";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Default empty project to prevent null values
 const defaultProject: Project = {
@@ -52,12 +56,13 @@ const AddAndEditDialog = ({
   const dispatch = useAppDispatch();
 
   // Local state for editing and adding
-  const [editProject, setEditProject] = useState<Project>({ ...defaultProject });
+  const [editProject, setEditProject] = useState<Project>({
+    ...defaultProject,
+  });
   const [newProject, setNewProject] = useState<Project>({ ...defaultProject });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const queryClient = useQueryClient();
   // Initialize form data when dialog opens or edit mode changes
   useEffect(() => {
     if (isOpen) {
@@ -75,7 +80,6 @@ const AddAndEditDialog = ({
         setNewProject({ ...defaultProject });
         setImageFile(null);
       }
-      setErrorMessage(null);
     }
   }, [isOpen, isEditMode, currentRealProject]);
 
@@ -89,7 +93,11 @@ const AddAndEditDialog = ({
     const { name, value } = e.target;
     const setter = isEditMode ? setEditProject : setNewProject;
 
-    if (name === "image" && e.target instanceof HTMLInputElement && e.target.files?.[0]) {
+    if (
+      name === "image" &&
+      e.target instanceof HTMLInputElement &&
+      e.target.files?.[0]
+    ) {
       const file = e.target.files[0];
       setImageFile(file);
       const imageUrl = URL.createObjectURL(file);
@@ -114,7 +122,7 @@ const AddAndEditDialog = ({
 
   // Safe getters
   const getProjectValue = (field: keyof Project): string => {
-    return currentProject[field] as string || "";
+    return (currentProject[field] as string) || "";
   };
 
   const getLinkValue = (field: keyof typeof currentProject.links): string => {
@@ -127,18 +135,20 @@ const AddAndEditDialog = ({
 
   // Validation
   const validateProject = (project: Project): boolean => {
-    return !!project.title && !!project.slug && !!project.status;
+    return (
+      !!project.title && !!project.slug && !!project.status && !!project.date
+    );
   };
-
+  // ---- Btn Disabled when ? ----
+  const disabled = isLoading || validateProject(currentProject);
   // Save handler
   const handleSave = async () => {
     if (!validateProject(currentProject)) {
-      setErrorMessage(t("requiredFieldsMissing"));
+      toast.error(t("requiredFieldsMissing"));
       return;
     }
 
     setIsLoading(true);
-    setErrorMessage(null);
 
     try {
       const imagePath = imageFile ? `${imageFile.name}` : "";
@@ -150,7 +160,7 @@ const AddAndEditDialog = ({
       if (isEditMode) {
         const projectId = currentRealProject?.id;
         if (!projectId) {
-          setErrorMessage("Project ID not found");
+          toast.error("idErrorNotFound");
           return;
         }
         // Use existing image if no new image is selected
@@ -168,10 +178,12 @@ const AddAndEditDialog = ({
         if (success) {
           dispatch(setCurrentProject(projectData));
           toast.success(t("updateSuccess"));
+          await queryClient.invalidateQueries({
+            queryKey: ["projects", locale],
+          });
           setIsOpen(false);
         } else {
           toast.error(t("updateFailed"));
-          setErrorMessage(t("updateFailed"));
         }
       } else {
         const success = await handleRowOperation(
@@ -184,15 +196,16 @@ const AddAndEditDialog = ({
         if (success) {
           dispatch(setProjects([projectData])); // Assuming addProject action exists
           toast.success(t("addSuccess"));
+          await queryClient.invalidateQueries({
+            queryKey: ["projects", locale],
+          });
           setIsOpen(false);
         } else {
-          setErrorMessage(t("addFailed"));
           toast.error(t("addFailed"));
         }
       }
     } catch (error) {
-      console.error("Error saving project:", error);
-      setErrorMessage(t("saveError"));
+      toast.error(t("saveError"));
     } finally {
       setIsLoading(false);
     }
@@ -218,7 +231,6 @@ const AddAndEditDialog = ({
         <h3 className="font-bold mb-4">
           {isEditMode ? t("editProject") : t("addNewProject")}
         </h3>
-        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <div className="space-y-3">
           <div>
             <label
@@ -463,8 +475,10 @@ const AddAndEditDialog = ({
         </div>
         <Button
           onClick={handleSave}
-          className="w-fit mx-auto cust-trans text-white"
-          disabled={isLoading}
+          className={`w-fit mx-auto cust-trans text-white ${
+            !disabled ? "cursor-wait  opacity-50" : ""
+          }`}
+          disabled={!disabled}
         >
           {isEditMode ? t("save") : t("add")}
           {isLoading ? <FaSpinner className=" animate-spin" /> : null}

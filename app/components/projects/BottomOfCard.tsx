@@ -11,6 +11,7 @@ import supabase from "@/lib/supabase";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { GoStarFill } from "react-icons/go";
+import { useQueryClient } from "@tanstack/react-query";
 
 const BottomOfCard = ({ project }: { project: Project }) => {
   const dispatch = useAppDispatch();
@@ -18,15 +19,19 @@ const BottomOfCard = ({ project }: { project: Project }) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const locale = useLocale();
   const t = useTranslations("projects");
+  const queryClient = useQueryClient()
   // Handle project deletion
   const handleDelete = async () => {
     if (project.id) {
       const { error } = await supabase
-        .from(`projects-${locale}`)
+        .from(`projects-${locale}`) 
         .delete()
         .eq("id", project.id);
+  
       if (!error) {
         dispatch(deletedProject(project));
+        // ريفيتش الكاش بعد الحذف
+        await queryClient.invalidateQueries({ queryKey: ['projects', locale] });
         toast.success(t("deleteSuccess"));
       } else {
         toast.error(t("deleteFailed"));

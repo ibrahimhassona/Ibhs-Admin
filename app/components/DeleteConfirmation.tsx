@@ -24,7 +24,6 @@ import {
     style?: string;
   }) {
     const t = useTranslations("Profile");
-  
     return (
       <AlertDialog >
         <AlertDialogTrigger asChild>
