@@ -1,8 +1,7 @@
 import { getProjects } from "@/lib/getData";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export const useProjects = (locale: string) => {
-    const queryClient= useQueryClient()
   const {
     data: projects,
     isLoading,

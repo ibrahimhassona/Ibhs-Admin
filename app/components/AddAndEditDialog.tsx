@@ -7,10 +7,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Project } from "@/lib/types";
-import {
-  setCurrentProject,
-  setProjects,
-} from "@/features/projects/projectsSlice";
+import { setCurrentProject, setProjects} from "@/features/projects/projectsSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import ReusableSelect from "./ReusableSelect";
 import { handleRowOperation } from "@/lib/uploadImageToStorage";
@@ -205,7 +202,7 @@ const AddAndEditDialog = ({
         }
       }
     } catch (error) {
-      toast.error(t("saveError"));
+      toast.error(t("saveError"+error));
     } finally {
       setIsLoading(false);
     }

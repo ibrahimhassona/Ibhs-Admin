@@ -6,8 +6,6 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import localFont from "next/font/local";
 import { Toaster } from "../components/ui/sonner";
-import { dehydrate } from '@tanstack/react-query';
-import { getQueryClient } from "@/lib/getQueryClient"; 
 import type { ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
@@ -54,9 +52,6 @@ export default async function RootLayout({
 
   const messages = await getMessages();
   const session = await auth();
-  
-  // Server-side query client initialization
-  const queryClient = getQueryClient();
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>

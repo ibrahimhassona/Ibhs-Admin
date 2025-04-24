@@ -14,7 +14,7 @@ export default function ProjectsComponent() {
   const locale = useLocale();
   const t = useTranslations("projects");
   // ------- Fetch Projects -------
-  const { projects, isLoading, isFetching } = useProjects(locale);
+  const { projects, isLoading } = useProjects(locale);
   // ------- Add New Project -------
   return (
     <section className="">
