@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import Technologies from "./Technologies";
 import Personalskills from "./Personalskills";
 
+
 export default function SkillsMainComponent() {
   const searchParams = useSearchParams();
   const router = useRouter();

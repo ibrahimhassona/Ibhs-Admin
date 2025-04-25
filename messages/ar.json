@@ -52,18 +52,42 @@
     "delete_confirm_title": "هل تريد حذف ؟",
     "added": "تمت الاضافة",
     "empty_field_error": "يرجى ملء الحقول المطلوبة"
-
   },
   "Skills": {
     "Skills": "مهارات",
     "personalskills": "المهارات الشخصية",
     "technologies": "تقنيات",
-    "addSkill": "إضافة تقنية جديدة",
-    "addBtn": "إضافة",
     "save": "حفظ",
-    "techName": "اسم التقنية",
     "title": "العنوان",
-    "description": "الوصف"
+    "description": "الوصف",
+    "loading": "جارٍ التحميل...",
+    "errorLoading": "حدث خطأ أثناء تحميل البيانات",
+    "addSkill": "إضافة تقنية جديدة",
+    "techName": "اسم التقنية",
+    "addBtn": "إضافة",
+    "adding": "جارٍ الإضافة...",
+    "uploadNewImage": "رفع صورة جديدة",
+    "completeData": "يرجى اكمال البيانات",
+    "uploadImageFailed": "فشل رفع الصورة",
+    "fetchDataFailed": "فشل جلب البيانات الحالية",
+    "updateTechFailed": "فشل تحديث التقنية للغة {lang}",
+    "techAddedSuccessfully": "تمت إضافة التقنية بنجاح لكلا اللغتين",
+    "errorAddingTech": "حدث خطأ أثناء إضافة التقنية",
+    "incompleteTechData": "بيانات التقنية غير مكتملة",
+    "updateImageFailed": "فشل تحديث الصورة",
+    "techUpdatedSuccessfully": "تم تحديث التقنية بنجاح",
+    "errorUpdatingTech": "حدث خطأ أثناء تحديث التقنية",
+    "deleteTechFailed": "فشل حذف التقنية للغة {lang}",
+    "techDeletedSuccessfully": "تم حذف التقنية بنجاح",
+    "errorDeletingTech": "حدث خطأ أثناء حذف التقنية",
+    "selectValidImage": "يرجى اختيار صورة صالحة",
+    "imageSizeTooLarge": "حجم الصورة كبير جدًا",
+    "desc":"الوصف",
+    "skillAddedSuccessfully": "تمت إضافة المهارة بنجاح.",
+    "errorAddingSkill": "حدث خطأ أثناء إضافة المهارة.",
+    "incompleteSkillData": "يرجى استكمال جميع بيانات المهارة المطلوبة.",
+    "skillUpdatedSuccessfully": "تم تحديث المهارة بنجاح.",
+    "errorUpdatingSkill": "حدث خطأ أثناء تحديث المهارة."
   },
   "projects": {
     "shared": "بالاشتراك مع تيم",
@@ -96,8 +120,8 @@
     "deleteSuccess": "تم الحذف بنجاح",
     "deleteFailed": "فشل الحذف",
     "add": "إضافة",
-    "requiredFieldsMissing":"حقل مطلوب لم يتم ملئه !",
+    "requiredFieldsMissing": "حقل مطلوب لم يتم ملئه !",
     "idErrorNotFound": "لم يتم العثور على المعرف",
-  "saveError": "حدث خطأ أثناء الحفظ. حاول مرة أخرى."
+    "saveError": "حدث خطأ أثناء الحفظ. حاول مرة أخرى."
   }
 }
