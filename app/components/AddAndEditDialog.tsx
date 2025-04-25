@@ -342,7 +342,7 @@ const AddAndEditDialog = ({
                 value={getProjectValue("status")}
                 onChange={(value) => handleSelectChange("status", value)}
                 options={[
-                  { value: "full", label: t("full") },
+                  { value: "Full", label: t("full") },
                   { value: "shared", label: t("shared") },
                 ]}
                 placeholder={t("select_project_status")}
