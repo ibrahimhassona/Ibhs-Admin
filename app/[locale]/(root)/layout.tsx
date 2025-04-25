@@ -6,8 +6,8 @@ import Sidebar from "../../components/SideBar";
 import { auth } from "@/auth";
 import GitHubLogin from "@/app/components/GitHubLogin";
 export const metadata: Metadata = {
-  title: "Prtofolio Admin",
-  description: "Change Prtofolio Items",
+  title: "إدارة",
+  description: "تحكم كامل فى الملف الشخصى",
 };
 export default async function RootLayout({
   children,

@@ -1,14 +1,15 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { FaUserCircle } from "react-icons/fa";
 
 // مكون الأفاتار (الصورة الكبيرة)
 export const UserAvatar = ({
   image,
   name,
+  locale
 }: {
   image?: string | null;
   name?: string | null;
+  locale:string
 }) =>
   image ? (
     <Image
@@ -21,16 +22,26 @@ export const UserAvatar = ({
       className="w-40 h-40 max-md:w-32 max-md:h-32 rounded-full object-cover border-4 border-primary shadow-lg"
     />
   ) : (
-    <FaUserCircle size={80} className="text-gray-400 border-4 border-primary" />
+    <Image
+        src={`/${locale}-logo.png`}
+        height={100}
+        width={100}
+        priority
+        quality={100}
+        className="w-[160px] h-[100px] max-md:w-[160px] max-md:h-[100px]"
+        alt="Logo DashBoard"
+      />
   );
 
 // مكون الأيقونة (الصورة الصغيرة)
 export const UserIcon = ({
   image,
   name,
+  locale
 }: {
   image?: string | null;
   name?: string | null;
+  locale:string
 }) =>
   image ? (
     <Image
@@ -43,7 +54,15 @@ export const UserIcon = ({
       className="w-10 h-10 rounded-full object-cover border-2 border-primary shadow-md"
     />
   ) : (
-    <FaUserCircle size={80} className="text-3xl text-gray-400 border-4 border-red-500 rounded-full" />
+    <Image
+            src={`/${locale}-logo.png`}
+            height={100}
+            width={100}
+            priority
+            quality={100}
+            className="w-[160px] h-[160px] max-md:w-[100px] max-md:h-[100px]"
+            alt="Logo DashBoard"
+          />
   );
 
 // مكون التحميل (Loader)
